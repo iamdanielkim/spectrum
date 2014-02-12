@@ -1,0 +1,21 @@
+{
+  "name": "spectrum",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node lib/index.js"
+  },
+  "dependencies": {
+    "express": "3.4.8",
+    "ejs": "*",
+    "stylus": "*",
+    "gherkin" : "2.12.2",
+    "ace" : "*",
+    "share" : "0.6.0",
+    "browserchannel" : "*",
+    "mustache" : "*",
+    "hogan-express" : "*",
+    "showdown" : "*",
+    "redis" : "*"
+  }
+}
