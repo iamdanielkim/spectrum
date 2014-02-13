@@ -1,3 +1,5 @@
+redis = require('redis')
+client = redis.createClient()
 
 wikiDocument = require('./builder/wikiDocument')
 gherkinDocument = require('./builder/gherkinDocument')
@@ -8,18 +10,15 @@ module.exports = (app) ->
     res.end();
 
   app.get '/wiki/:docName', (req, res) ->
-    docName = req.params.docName;
-    docPresenter(docName, app.model, res, wikiDocument)
+    name = req.params.docName;
+    docPresenter(name, "wiki:" + name, app.model, res, wikiDocument)
 
   app.get '/feature/:docName', (req, res) ->
-    docName = req.params.docName;
-    docPresenter(docName, app.model, res, gherkinDocument)
+    name = req.params.docName;
+    docPresenter(name, "feature:" + name, app.model, res, gherkinDocument)
 
 
-docPresenter = (docName, model, res, docBuilder) ->
-	name = docName
-	docName = "wiki:" + docName
-
+docPresenter = (name, docName, model, res, docBuilder) ->
 	model.getSnapshot docName, (error, data) ->
 		if error is 'Document does not exist'
 			model.create docName, 'text', ->
@@ -32,4 +31,11 @@ docPresenter = (docName, model, res, docBuilder) ->
 showdown = new (require('showdown').converter)()
 render = (content, name, docName, res) ->
   markdown = showdown.makeHtml content
-  res.render 'wiki', {content, markdown, name, docName }
+  client.keys 'ShareJS:doc:*', (err, pages) ->
+    if (err)
+      []
+    res.render 'spectrum', {pages, content, markdown, name, docName }
+
+
+
+

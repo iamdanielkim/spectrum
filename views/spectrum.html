@@ -10,6 +10,15 @@
         Wiki <strong>{{name}}</strong>
       </div>
     </div>
+    <div id="left-panel">
+      <div id="pages" class="list">
+        <ul>
+        {{#pages}}
+          <li>{{.}}</li>
+        {{/pages}}
+        </ul>
+      </div>
+    </div>
     <div id="left">
       <div id="view" class="content">{{{markdown}}}</div>
     </div>
