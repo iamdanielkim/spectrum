@@ -1,0 +1,9 @@
+[submodule "vendor/cucumber-html"]
+	path = vendor/cucumber-html
+	url = https://github.com/cucumber/cucumber-html.git
+[submodule "vendor/gherkin-syntax-highlighter"]
+	path = vendor/gherkin-syntax-highlighter
+	url = https://github.com/cucumber/gherkin-syntax-highlighters.git
+[submodule "vendor/gherkin-editor"]
+	path = vendor/gherkin-editor
+	url = https://github.com/cucumber/gherkin-editor.git
