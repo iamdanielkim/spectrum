@@ -16,8 +16,7 @@ app.set 'view engine', 'html'    # use .html extension for templates
 
 app.use(express.favicon())
 app.use(express.logger('dev'))
-app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.bodyParser())
 app.use(express.methodOverride())
 app.use(express.cookieParser('your secret here'))
 app.use(express.session())
@@ -37,6 +36,43 @@ sharejs.server.attach(app, options);
 
 # routes
 require('./wiki')(app)
+
+fs = require('fs')
+
+app.post '/upload', (req, res) ->
+  console.log(req.files)
+  uploaded = req.files.files[0]
+
+  fs.readFile uploaded.path, (err, data)->
+    newPath = __dirname + "/../public/attachments/" + uploaded.name
+    fs.writeFile newPath, data, (err)->
+      if(err)
+        console.log(err)
+      else
+        console.log(data)
+        res.json(data)
+        res.end()
+
+walk = require('walk')
+app.get '/attachments', (req, res) ->
+  files = [];
+  walker  = walk.walk(__dirname + "/../public/attachments", { followLinks: false })
+  walker.on 'file', (root, stat, next) ->
+    files.push('/attachments/' + stat.name)
+    next()
+
+  walker.on 'end', () ->
+    console.log(files)
+    res.send(files)
+
+app.get '/features/:docName/attachments', (req, res) ->
+    res.send("haha2")
+
+app.post '/features/:docName/attachments', (req, res) ->
+    res.send("haha2")
+
+app.get '/features/:docName/attachments/:fileName', (req, res) ->
+    res.send("haha2")
 
 
 
