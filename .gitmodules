@@ -7,3 +7,6 @@
 [submodule "vendor/gherkin-editor"]
 	path = vendor/gherkin-editor
 	url = https://github.com/cucumber/gherkin-editor.git
+[submodule "vendor/gherkin-syntax-highlighters"]
+	path = vendor/gherkin-syntax-highlighters
+	url = https://github.com/cucumber/gherkin-syntax-highlighters.git
