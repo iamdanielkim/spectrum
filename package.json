@@ -10,12 +10,14 @@
     "ejs": "*",
     "stylus": "*",
     "gherkin" : "2.12.2",
-    "ace" : "*",
     "share" : "0.6.0",
     "browserchannel" : "*",
     "mustache" : "*",
     "hogan-express" : "*",
-    "showdown" : "*",
+    "marked" : "*",
+    "blueimp-file-upload" : "*",
+    "blueimp-gallery" : "*",
+    "walk" : "*",
     "redis" : "*"
   }
 }
