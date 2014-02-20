@@ -44,7 +44,7 @@ app.post '/upload', (req, res) ->
   uploaded = req.files.files[0]
 
   fs.readFile uploaded.path, (err, data)->
-    newPath = __dirname + "/../public/attachments/" + uploaded.name
+    newPath = __dirname + "/../attachments/" + uploaded.name
     fs.writeFile newPath, data, (err)->
       if(err)
         console.log(err)
@@ -56,7 +56,7 @@ app.post '/upload', (req, res) ->
 walk = require('walk')
 app.get '/attachments', (req, res) ->
   files = [];
-  walker  = walk.walk(__dirname + "/../public/attachments", { followLinks: false })
+  walker  = walk.walk(__dirname + "/../attachments", { followLinks: false })
   walker.on 'file', (root, stat, next) ->
     files.push('/attachments/' + stat.name)
     next()
