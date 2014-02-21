@@ -7,25 +7,28 @@ client = redis.createClient()
 
 module.exports = (app) ->
   app.get '/pages', (req, res) ->
-    client.keys 'ShareJS:doc:wiki:*', (err, pages) ->
+    client.keys 'ShareJS:doc:wiki:*', (err, data) ->
       if (err)
         []
       else
-        url = []
-        for page in pages
-          url.push page.replace(/ShareJS:doc:wiki:/g, '/pages/')
-        res.json(url)
+        pages = []
+        for item in data
+          title = item.replace(/ShareJS:doc:wiki:/g, '/')
+          url = "/pages" + title
+          pages.push {title, url}
+        res.json(pages)
 
   app.get '/features', (req, res) ->
-    client.keys 'ShareJS:doc:feature:*', (err, pages) ->
+    client.keys 'ShareJS:doc:feature:*', (err, data) ->
       if (err)
         []
       else
-        url = []
-        for page in pages
-          url.push page.replace(/ShareJS:doc:feature:/g, '/features/')
-        res.json(url)
-
+        pages = []
+        for item in data
+          title = item.replace(/ShareJS:doc:feature:/g, '/')
+          url = "/features" + title
+          pages.push {title, url}
+        res.json(pages)
 
   app.get '/pages/:docName', (req, res) ->
     document = new WikiDocument(req.params.docName)
