@@ -11,6 +11,10 @@ body {
 	background-color: black;
 }
 
+span.fileinput-button {
+  top: 0px;
+  padding: 2 3 4 4;
+}
 #htext {
 	line-height: 30px;
 	vertical-align: middle;
@@ -21,7 +25,7 @@ body {
 }
 
 #left-panel {
-  background-color: #ccc;
+  background-color: #002B36;
 	margin: 0;
 	position: fixed;
 	overflow: scroll;
@@ -30,7 +34,15 @@ body {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	width: 10%;
+	width: 20%;
+  color: #93A1A1;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+}
+#left-panel a, #left-panel a:visited {
+  color: #D30102;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 10pt;
+  text-decoration: none;
 }
 
 #left {
@@ -40,9 +52,12 @@ body {
 	float: left;
 	top: 30px;
 	bottom: 0;
-	left: 10%;
+	left: 20%;
 	right: 0;
-	width: 45%;
+	width: 40%;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 #view {
@@ -55,8 +70,8 @@ body {
 	position: fixed;
 	top: 30px;
 	bottom: 0;
-	left: 55%;
-	width: 45%;
+	left: 60%;
+	width: 40%;
 	right: 0;
 }
 

@@ -2,72 +2,178 @@
   <head>
     <title> {{name}}</title>
     <link href="/style.css" rel="stylesheet" type="text/css">
+    <link href="/toastr/toastr.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/file-upload/css/jquery.fileupload.css">
   </head>
 
   <body>
+
     <div id="header">
       <div id="htext">
+        <span class="btn btn-success fileinput-button">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span></span>
+            <input id="fileupload" type="file" name="files[]" data-url="/upload" multiple>
+        </span>
         Wiki <strong>{{name}}</strong>
       </div>
+
     </div>
     <div id="left-panel">
+      <h3>Pages</h3>
       <div id="pages" class="list">
-        <ul>
-        {{#pages}}
-          <li>{{.}}</li>
-        {{/pages}}
-        </ul>
+
+      </div>
+
+      <h3>Features</h3>
+      <div id="features" class="list">
+
       </div>
     </div>
     <div id="left">
       <div id="view" class="content">{{{markdown}}}</div>
     </div>
     <div id="editor">{{{content}}}</div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="/javascripts/markdown/showdown.js" type="text/javascript"></script>
-    <script src="http://ajaxorg.github.com/ace/build/src/ace.js"></script>
-    <script src="http://ajaxorg.github.com/ace/build/src/mode-coffee.js"></script>
-    <script src="http://ajaxorg.github.com/ace/build/src/theme-solarized_dark.js"></script>
-    <script src="/javascripts/gsh/ace/mode-gherkin-en.js"></script>
 
+
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/ace-builds/src/ace.js"></script>
+    <script src="/ace-builds/src/mode-coffee.js"></script>
+    <script src="/ace-builds/src/theme-solarized_dark.js"></script>
+    <script src="/toastr/toastr.js"></script>
+
+    <script src="/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+    <script src="/blueimp-file-upload/js/jquery.fileupload.js"></script>
+
+    <script src="/javascripts/gsh/ace/mode-gherkin-en.js"></script>
+    <script src="/javascripts/markdown/showdown.js" type="text/javascript"></script>
     <script src="/javascripts/bcsocket.js"></script>
     <script src="/javascripts/webclient/share.uncompressed.js"></script>
     <script src="/javascripts/webclient/ace.js"></script>
+
+    <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
     <script>
-window.onload = function() {
-  var converter = new Showdown.converter();
-  var view = document.getElementById('view');
+$(document).ready(function() {
+  (function(){
+      var converter = new Showdown.converter();
+      var view = document.getElementById('view');
 
-  var editor = ace.edit("editor");
-  editor.setTheme("ace/theme/solarized_dark");
-  var GherkinMode = require('ace/mode/gherkin-en').Mode;
-  editor.getSession().setMode(new GherkinMode());
-  editor.getSession().setTabSize(2);
+      var editor = ace.edit("editor");
+      editor.setTheme("ace/theme/solarized_dark");
+      var GherkinMode = require('ace/mode/gherkin-en').Mode;
+      editor.getSession().setMode(new GherkinMode());
+      editor.getSession().setTabSize(2);
 
-  editor.setReadOnly(false);
-  editor.session.setUseWrapMode(true);
-  editor.setShowPrintMargin(true);
+      editor.setReadOnly(false);
+      editor.session.setUseWrapMode(true);
+      editor.setShowPrintMargin(true);
 
-  var connection = new sharejs.Connection('/channel');
+      var connection = new sharejs.Connection('/channel');
 
-  connection.open('{{{docName}}}', function(error, doc) {
-    if (error) {
-      console.error(error);
-      return;
-    }
-    doc.attach_ace(editor);
-    editor.setReadOnly(false);
+      connection.open('{{{docName}}}', function(error, doc) {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        doc.attach_ace(editor);
+        editor.setReadOnly(false);
 
-    var render = function() {
-      view.innerHTML = converter.makeHtml(doc.snapshot);
-    };
+        var render = function() {
+          view.innerHTML = converter.makeHtml(doc.snapshot);
+        };
 
-    window.doc = doc;
+        window.doc = doc;
 
-    render();
-    doc.on('change', render);
-  });
-};
+        render();
+        doc.on('change', render);
+      });
+  })();
+
+  (function(){
+        setTimeout(function(){
+            $("#editor").animate({ left: "94%" }, 700);
+            $("#left").animate({ width: "76%" }, 900);
+        }, 1000)
+
+        var toggle = false;
+        $("#left").click(function() {
+
+            if(toggle){
+                $("#editor").animate({ left: "94%" }, 300);
+                $("#left").animate({ width: "76%" }, 500);
+                toggle = false;
+            }else{
+                $("#editor").animate({ left: "60%" }, 300);
+                $("#left").animate({ width: "40%"}, 500);
+                toggle = true;
+            }
+        });
+  })();
+
+  (function(){
+    var tpl =  "<ul>" +
+        " {" + "{" + "#list}}" +
+        "   <li><a href='{"+"{url}}'>{"+"{title}}</a></li>" +
+        " {"+"{/list}}" +
+        " </ul>" ;
+      console.log(tpl)
+    var template = Hogan.compile(tpl);
+
+    $.ajax({
+      url: "/pages",
+      context: document.body
+    }).done(function(data) {
+        $("#pages").html(template.render({list: data}));
+    });
+
+    $.ajax({
+      url: "/features",
+      context: document.body
+    }).done(function(data) {
+      $("#features").html(template.render({list: data}));
+    });
+  })();
+
+  $(function () {
+    $('#fileupload').fileupload({
+        dataType: 'json',
+/*
+        add: function (e, data) {
+            data.context = $('<button/>').text('Upload')
+                .appendTo(document.body)
+                .click(function () {
+                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
+                    data.submit();
+                });
+        },
+        done: function (e, data) {
+            data.context.text('Upload finished.');
+        },
+*/
+        done: function (e, data) {
+            console.log(data)
+
+        },
+        progress: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css(
+                'width',
+                progress + '%'
+            );
+            if(progress >= 100){
+                toastr.success("Upload Complete :D")
+            }
+        }
+    });
+});
+})
+
+
+
+
     </script>
   </body>
 </html>
