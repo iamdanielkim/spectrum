@@ -1,0 +1,34 @@
+{
+  "name": "spectrum",
+  "version": "0.1.0",
+  "homepage": "https://github.com/iamdanielkim/spectrum",
+  "authors": [
+    "iamdanielkim <iamdanielkim@sk.com>"
+  ],
+  "description": "Living Documentation System for All",
+  "main": "lib/index.js",
+  "keywords": [
+    "spec",
+    "atdd",
+    "cucumber"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "toastr": "*",
+    "ace-builds": "*",
+    "hogan": "*",
+    "blueimp-file-upload": "*",
+    "blueimp-gallery": "*",
+    "jquery": "1.11.0",
+    "jquery-ui": "*",
+    "bootstrap": "*",
+    "marked": "*"
+  }
+}
