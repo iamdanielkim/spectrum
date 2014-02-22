@@ -118,7 +118,12 @@ $(document).ready(function() {
   (function(){ // render page tree
     var tpl =  "<ul>" +
         " {" + "{" + "#list}}" +
-        "   <li contenteditable><a href='{"+"{url}}'>{"+"{title}}</a></li>" +
+        "   <li >" +
+                "<span class='title' contenteditable>{"+"{title}}</span>" +
+                "<a href='{"+"{url}}' class='btn btn-link'>" +
+                    "<i class='glyphicon glyphicon-circle-arrow-right'></i>" +
+                "</a>" +
+        "   </li>" +
         " {"+"{/list}}" +
         " </ul>" ;
       console.log(tpl)
