@@ -21,12 +21,12 @@
 
     </div>
     <div id="left-panel">
-      <h3>Pages</h3>
+      <a href="/pages"><h3>Pages</h3></a>
       <div id="pages" class="list">
 
       </div>
 
-      <h3>Features</h3>
+      <a href="/features"><h3>Features</h3></a>
       <div id="features" class="list">
 
       </div>
@@ -56,24 +56,27 @@
 
     <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
     <script>
+
 $(document).ready(function() {
-  (function(){
-      var converter = new Showdown.converter();
-      var view = document.getElementById('view');
+    window.ae = createEditor('{{{docName}}}');
 
-      var editor = ace.edit("editor");
-      editor.setTheme("ace/theme/solarized_dark");
-      var GherkinMode = require('ace/mode/gherkin-en').Mode;
-      editor.getSession().setMode(new GherkinMode());
-      editor.getSession().setTabSize(2);
+    function createEditor(docName){
+        var converter = new Showdown.converter();
+        var view = document.getElementById('view');
 
-      editor.setReadOnly(false);
-      editor.session.setUseWrapMode(true);
-      editor.setShowPrintMargin(true);
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/solarized_dark");
+        var GherkinMode = require('ace/mode/gherkin-en').Mode;
+        editor.getSession().setMode(new GherkinMode());
+        editor.getSession().setTabSize(2);
 
-      var connection = new sharejs.Connection('/channel');
+        editor.setReadOnly(false);
+        editor.session.setUseWrapMode(true);
+        editor.setShowPrintMargin(true);
 
-      connection.open('{{{docName}}}', function(error, doc) {
+
+        var connection = new sharejs.Connection('/channel');
+        connection.open(docName, function(error, doc) {
         if (error) {
           console.error(error);
           return;
@@ -85,14 +88,13 @@ $(document).ready(function() {
           view.innerHTML = converter.makeHtml(doc.snapshot);
         };
 
-        window.doc = doc;
-
         render();
         doc.on('change', render);
-      });
-  })();
+        });
+        return editor;
+    }
 
-  (function(){
+  (function(){ // slide panels
         setTimeout(function(){
             $("#editor").animate({ left: "94%" }, 700);
             $("#left").animate({ width: "76%" }, 900);
@@ -113,10 +115,10 @@ $(document).ready(function() {
         });
   })();
 
-  (function(){
+  (function(){ // render page tree
     var tpl =  "<ul>" +
         " {" + "{" + "#list}}" +
-        "   <li><a href='{"+"{url}}'>{"+"{title}}</a></li>" +
+        "   <li contenteditable><a href='{"+"{url}}'>{"+"{title}}</a></li>" +
         " {"+"{/list}}" +
         " </ul>" ;
       console.log(tpl)
@@ -137,38 +139,31 @@ $(document).ready(function() {
     });
   })();
 
-  $(function () {
+  (function (editor) { // file upload
     $('#fileupload').fileupload({
         dataType: 'json',
-/*
-        add: function (e, data) {
-            data.context = $('<button/>').text('Upload')
-                .appendTo(document.body)
-                .click(function () {
-                    data.context = $('<p/>').text('Uploading...').replaceAll($(this));
-                    data.submit();
-                });
-        },
-        done: function (e, data) {
-            data.context.text('Upload finished.');
-        },
-*/
-        done: function (e, data) {
-            console.log(data)
-
-        },
         progress: function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $('#progress .bar').css(
                 'width',
                 progress + '%'
             );
-            if(progress >= 100){
-                toastr.success("Upload Complete :D")
-            }
+        },
+        done: function (e, data) {
+            var filename = data.files[0].name;
+            console.log("DDD = ", filename);
+            toastr.success("Upload Complete :D")
+            editor.splitLine()
+            editor.splitLine()
+            editor.navigateDown(1)
+            editor.navigateLineStart()
+
+            editor.insert(
+                "!["+ filename + "](/attachments/" + filename +")"
+            );
         }
     });
-});
+  })(ae);
 })
 
 

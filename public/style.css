@@ -64,6 +64,9 @@ span.fileinput-button {
 	padding-left: 30px;
 	padding-right: 30px;
 }
+#view img {
+  width: 90%;
+}
 
 #editor {
 	margin: 0;

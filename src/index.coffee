@@ -23,6 +23,7 @@ app.use(express.session())
 app.use(app.router)
 app.use(require('stylus').middleware(path.join(__dirname, 'public')))
 app.use(express.static(path.join(__dirname, '../public')))
+app.use('/attachments', express.static(path.join(__dirname, '../attachments')))
 app.use(express.static(path.join(__dirname, '../bower_components')))
 #app.enable 'view cache'
 app.engine 'html', require('hogan-express')
@@ -41,18 +42,19 @@ require('./wiki')(app)
 fs = require('fs')
 
 app.post '/upload', (req, res) ->
-  console.log(req.files)
-  uploaded = req.files.files[0]
+  save req.files, (err) ->
+    if(err)
+      console.log(err)
+    else
+      res.send(req.files.files[0])
 
+
+save = (files, callback) ->
+  console.log(files)
+  uploaded = files.files[0]
   fs.readFile uploaded.path, (err, data)->
     newPath = __dirname + "/../attachments/" + uploaded.name
-    fs.writeFile newPath, data, (err)->
-      if(err)
-        console.log(err)
-      else
-        console.log(data)
-        res.json(data)
-        res.end()
+    fs.writeFile newPath, data, (err) -> callback(err)
 
 walk = require('walk')
 app.get '/attachments', (req, res) ->
