@@ -2,72 +2,178 @@
   <head>
     <title> {{name}}</title>
     <link href="/style.css" rel="stylesheet" type="text/css">
+    <link href="/toastr/toastr.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/file-upload/css/jquery.fileupload.css">
   </head>
 
   <body>
+
     <div id="header">
       <div id="htext">
+        <span class="btn btn-success fileinput-button">
+            <i class="glyphicon glyphicon-plus"></i>
+            <span></span>
+            <input id="fileupload" type="file" name="files[]" data-url="/upload" multiple>
+        </span>
         Wiki <strong>{{name}}</strong>
       </div>
+
     </div>
     <div id="left-panel">
+      <a href="/pages"><h3>Pages</h3></a>
       <div id="pages" class="list">
-        <ul>
-        {{#pages}}
-          <li>{{.}}</li>
-        {{/pages}}
-        </ul>
+
+      </div>
+
+      <a href="/features"><h3>Features</h3></a>
+      <div id="features" class="list">
+
       </div>
     </div>
     <div id="left">
       <div id="view" class="content">{{{markdown}}}</div>
     </div>
     <div id="editor">{{{content}}}</div>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="/javascripts/markdown/showdown.js" type="text/javascript"></script>
-    <script src="http://ajaxorg.github.com/ace/build/src/ace.js"></script>
-    <script src="http://ajaxorg.github.com/ace/build/src/mode-coffee.js"></script>
-    <script src="http://ajaxorg.github.com/ace/build/src/theme-solarized_dark.js"></script>
-    <script src="/javascripts/gsh/ace/mode-gherkin-en.js"></script>
 
+
+
+    <script src="/jquery/dist/jquery.min.js"></script>
+    <script src="/ace-builds/src/ace.js"></script>
+    <script src="/ace-builds/src/mode-coffee.js"></script>
+    <script src="/ace-builds/src/theme-solarized_dark.js"></script>
+    <script src="/toastr/toastr.js"></script>
+
+    <script src="/blueimp-file-upload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="/blueimp-file-upload/js/jquery.iframe-transport.js"></script>
+    <script src="/blueimp-file-upload/js/jquery.fileupload.js"></script>
+
+    <script src="/javascripts/gsh/ace/mode-gherkin-en.js"></script>
+    <script src="/javascripts/markdown/showdown.js" type="text/javascript"></script>
     <script src="/javascripts/bcsocket.js"></script>
     <script src="/javascripts/webclient/share.uncompressed.js"></script>
     <script src="/javascripts/webclient/ace.js"></script>
+
+    <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
     <script>
-window.onload = function() {
-  var converter = new Showdown.converter();
-  var view = document.getElementById('view');
 
-  var editor = ace.edit("editor");
-  editor.setTheme("ace/theme/solarized_dark");
-  var GherkinMode = require('ace/mode/gherkin-en').Mode;
-  editor.getSession().setMode(new GherkinMode());
-  editor.getSession().setTabSize(2);
+$(document).ready(function() {
+    window.ae = createEditor('{{{docName}}}');
 
-  editor.setReadOnly(false);
-  editor.session.setUseWrapMode(true);
-  editor.setShowPrintMargin(true);
+    function createEditor(docName){
+        var converter = new Showdown.converter();
+        var view = document.getElementById('view');
 
-  var connection = new sharejs.Connection('/channel');
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/solarized_dark");
+        var GherkinMode = require('ace/mode/gherkin-en').Mode;
+        editor.getSession().setMode(new GherkinMode());
+        editor.getSession().setTabSize(2);
 
-  connection.open('{{{docName}}}', function(error, doc) {
-    if (error) {
-      console.error(error);
-      return;
+        editor.setReadOnly(false);
+        editor.session.setUseWrapMode(true);
+        editor.setShowPrintMargin(true);
+
+
+        var connection = new sharejs.Connection('/channel');
+        connection.open(docName, function(error, doc) {
+        if (error) {
+          console.error(error);
+          return;
+        }
+        doc.attach_ace(editor);
+        editor.setReadOnly(false);
+
+        var render = function() {
+          view.innerHTML = converter.makeHtml(doc.snapshot);
+        };
+
+        render();
+        doc.on('change', render);
+        });
+        return editor;
     }
-    doc.attach_ace(editor);
-    editor.setReadOnly(false);
 
-    var render = function() {
-      view.innerHTML = converter.makeHtml(doc.snapshot);
-    };
+  (function(){ // slide panels
+        setTimeout(function(){
+            $("#editor").animate({ left: "94%" }, 700);
+            $("#left").animate({ width: "76%" }, 900);
+        }, 1000)
 
-    window.doc = doc;
+        var toggle = false;
+        $("#left").click(function() {
 
-    render();
-    doc.on('change', render);
-  });
-};
+            if(toggle){
+                $("#editor").animate({ left: "94%" }, 300);
+                $("#left").animate({ width: "76%" }, 500);
+                toggle = false;
+            }else{
+                $("#editor").animate({ left: "60%" }, 300);
+                $("#left").animate({ width: "40%"}, 500);
+                toggle = true;
+            }
+        });
+  })();
+
+  (function(){ // render page tree
+    var tpl =  "<ul>" +
+        " {" + "{" + "#list}}" +
+        "   <li >" +
+                "<span class='title' contenteditable>{"+"{title}}</span>" +
+                "<a href='{"+"{url}}' class='btn btn-link'>" +
+                    "<i class='glyphicon glyphicon-circle-arrow-right'></i>" +
+                "</a>" +
+        "   </li>" +
+        " {"+"{/list}}" +
+        " </ul>" ;
+      console.log(tpl)
+    var template = Hogan.compile(tpl);
+
+    $.ajax({
+      url: "/pages",
+      context: document.body
+    }).done(function(data) {
+        $("#pages").html(template.render({list: data}));
+    });
+
+    $.ajax({
+      url: "/features",
+      context: document.body
+    }).done(function(data) {
+      $("#features").html(template.render({list: data}));
+    });
+  })();
+
+  (function (editor) { // file upload
+    $('#fileupload').fileupload({
+        dataType: 'json',
+        progress: function (e, data) {
+            var progress = parseInt(data.loaded / data.total * 100, 10);
+            $('#progress .bar').css(
+                'width',
+                progress + '%'
+            );
+        },
+        done: function (e, data) {
+            var filename = data.files[0].name;
+            console.log("DDD = ", filename);
+            toastr.success("Upload Complete :D")
+            editor.splitLine()
+            editor.splitLine()
+            editor.navigateDown(1)
+            editor.navigateLineStart()
+
+            editor.insert(
+                "!["+ filename + "](/attachments/" + filename +")"
+            );
+        }
+    });
+  })(ae);
+})
+
+
+
+
     </script>
   </body>
 </html>
