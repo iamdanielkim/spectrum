@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/jquery-ui/themes/smoothness/jquery-ui.css">
+        <style>
+            h1 { padding: .2em; margin: 0; }
+            #products { float:left; width: 500px; margin-right: 2em; }
+            #cart { width: 200px; float: left; margin-top: 1em; }
+            /* style the list to maximize the droppable hitarea */
+            #cart ol { margin: 0; padding: 1em 0 1em 3em; }
+
+            .title-wrap { border-bottom: 1px solid #fff; }
+            .hover > .title-wrap { border-bottom: 1px solid red; }
+
+            .drag { display:none;}
+            .hover > .title-wrap > .drag { display:inline; cursor: move; float:right;}
+
+
+        </style>
+    </head>
+    <body>
+        <div class="drag">+</div>
+        <div id="title">안녕 ~! </div>
+        <div id="panel">
+            <!--ul class="pages">
+                <li id="t">
+                     <div class="title-wrap"><span class="title" >하하하</span>
+                     <ul class="pages">
+                         <li><div class="title-wrap"><span class="title" >하하하</span></li>
+                         <li><div class="title-wrap"><span class="title" >0</span>
+                             <ul><li><div class="title-wrap"><span class="title" >1</span></li></ul>
+                         </li>
+                         <li><div class="title-wrap"><span class="title" >1</span>
+                             <ul><li><div class="title-wrap"><span class="title" >2</span></li></ul>
+                         </li>
+
+                     </ul>
+                </li>
+                <li><div class="title-wrap"><span class="title" >3</span></li>
+            </ul-->
+
+            <ul class="pages">
+                <li id="t">
+                    <div class="title-wrap"><span class="title" contenteditable>하하하</span> <span class="drag">+</span></div>
+                    <ul class="pages">
+                         <li><div class="title-wrap"><span class="title" contenteditable>하하하</span> <span class="drag">+</span></div></li>
+                         <li><div class="title-wrap"><span class="title" contenteditable>헤헤</span> <span class="drag">+</span></div></li>
+                         <li><div class="title-wrap"><span class="title" contenteditable>후후</span> <span class="drag">+</span></div></li>
+                         <li><div class="title-wrap"><span class="title" contenteditable="">ㅋㅋㅋ</span> <span class="drag">+</span></div>
+                             <ul>
+                                 <li><div class="title-wrap"><span class="title" contenteditable="">A</span> <span class="drag">+</span></div></li>
+                                 <li><div class="title-wrap"><span class="title" contenteditable="">B</span> <span class="drag">+</span></div></li>
+                                 <li><div class="title-wrap"><span class="title" contenteditable="">c</span> <span class="drag">+</span></div></li>
+                                 <li><div class="title-wrap"><span class="title" contenteditable="">d</span> <span class="drag">+</span></div></li>
+                             </ul>
+                         </li>
+                         <li><div class="title-wrap"><span class="title" contenteditable="">!!!!</span> <span class="drag">+</span></div>
+                             <ul>
+                                 <li><div class="title-wrap"><span class="title" contenteditable="">@@@@</span> <span class="drag">+</span></div></li>
+                             </ul>
+                         </li>
+                         <li><div class="title-wrap"><span class="title" contenteditable="">1</span> <span class="drag">+</span></div>
+                             <ul>
+                                 <li><div class="title-wrap"><span class="title" contenteditable="">2</span> <span class="drag">+</span></div></li>
+                                 <li><div class="title-wrap"><span class="title" contenteditable="">3</span> <span class="drag">+</span></div></li>
+                                 <li><div class="title-wrap"><span class="title" contenteditable="">4</span> <span class="drag">+</span></div></li>
+                                 <li><div class="title-wrap"><span class="title" contenteditable="">5</span> <span class="drag">+</span></div></li>
+                             </ul>
+                         </li>
+
+                     </ul>
+                </li>
+                <li><div class="title-wrap"><span class="title" contenteditable="">w</span> <span class="drag">+</span></div></li>
+                <li><div class="title-wrap"><span class="title" contenteditable="">x</span> <span class="drag">+</span></div></li>
+                <li><div class="title-wrap"><span class="title" contenteditable="">y</span> <span class="drag">+</span></div></li>
+                <li><div class="title-wrap"><span class="title" contenteditable="">z</span> <span class="drag">+</span></div></li>
+            </ul>
+        </div>
+        <div id="console"></div>
+        <script src="/jquery/dist/jquery.min.js"></script>
+        <script src="/jquery-ui/ui/jquery-ui.js"></script>
+        <script>
+            $(document).ready(function(){
+                listwalker();
+
+                //$( ".selector" ).sortable({ containment: "parent" });
+
+                $(".pages li").on("mouseenter", function(ev){
+                    var el = ev.currentTarget;
+
+                    $(".pages .hover").removeClass("hover");
+                    $(el).addClass("hover");
+                    console.log("Enter:", el.nodeName, el.className);
+                    ev.stopPropagation();
+                })
+
+                .on("mouseleave", function(ev){
+                    var el = ev.currentTarget;
+                    $(".pages .hover").removeClass("hover");
+                    $(ev.relatedTarget).parent().addClass("hover");
+                    console.log("Leave: (", el.nodeName, el.className , ") to ", ev.relatedTarget.nodeName);
+                })
+
+
+            });
+
+            function listwalker(){
+                var i = 0;
+                $('#panel').keydown(function(ev){
+                    $(".pages li.hover").removeClass("hover");
+                    $("#console").html(ev.keyCode);
+
+                    if(ev.shiftKey && ev.keyCode == 9){ // shift+tab
+                        ev.preventDefault();
+                        var $li = $(ev.target).parent().parent();
+                        var $ul = $li.parent();
+                        var $parentLi = $ul.parent();
+
+                        $parentLi.after($li);
+
+                        if($ul.children() == 0){
+                            $ul.remove();
+                        }
+                        focus($li.find(".title-wrap .title"));
+                    }else if(ev.shiftKey && ev.keyCode == 13){ // shift+enter
+
+                    }else if(ev.keyCode == 9){ // tab
+                        ev.preventDefault();
+                        var $li = $(ev.target).parent().parent();
+                        var $prevLi = $li.prev();
+
+                        var $ul;
+                        if($("> ul", $prevLi).size() != 0){
+                            $ul = $("> ul", $prevLi);
+                        }else{
+                            $prevLi.append("<ul class='_new'></ul>");
+                            $ul = $("._new");
+                        }
+
+                        $ul.append($li).removeClass("_new");
+
+                        focus($li.find(".title-wrap > .title"));
+
+                    }else if(ev.keyCode == 13){ // enter
+                        ev.preventDefault();
+                        var $li = $(ev.target).parent().parent();
+
+                        if(isCaretInFront()){
+                            //caret이 맨 앞에 있음 위에 삽입. caret은 현재 li 그대로
+                            newLiBefore($li);
+                            focus($li.find(".title-wrap > .title"));
+                        }else if(hasChildren($li)){
+                            //child가 있을 경우, child로 생성
+                            var $ul = $li.find("ul");
+                            newLiInside($ul);
+                            focus($ul.find("li:first-child .title-wrap > .title"));
+                        }else{
+                            //기본 동작은 sibliing으로 생성
+                            newLiAfter($li);
+                            var $nextLi = $li.next();
+                            focus($nextLi.find(".title-wrap > .title"));
+                        }
+
+
+                        function newLiAfter(li){
+                            $(li).after('<li><div class="title-wrap"><span class="title" contenteditable>' + i++ +'</span><span class="drag">+</span></div></li>');
+                        }
+                        function newLiBefore(li){
+                            $(li).before('<li><div class="title-wrap"><span class="title" contenteditable>' + i++ +'</span><span class="drag">+</span></div></li>');
+                        }
+                        function newLiInside(ul){
+                            $(ul).prepend('<li><div class="title-wrap"><span class="title" contenteditable>' + i++ +'</span><span class="drag">+</span></div></li>');
+                        }
+
+                        function isCaretInFront(){
+                            sel = window.getSelection();
+                            return (sel.anchorOffset == 0 && sel.focusOffset == 0);
+                        }
+                        function hasChildren($li){
+                            return $li.find("ul").size() > 0;
+                        }
+
+                    }else if(ev.keyCode == 38){ //up
+                        ev.preventDefault();
+                        var $li = $(ev.target).parent().parent();
+                        var $prevLi;
+
+                        if($li.prev().find("li:last-child").size() > 0) {
+                            $prevLi = $li.prev().find("li:last-child").last();
+
+                        }else if($li.prev().size() > 0) {
+                            $prevLi = $li.prev();
+                        }else{
+                            $prevLi = $li.parents("li").first();
+                        }
+
+                        $prevLi[0] && focus($prevLi.find(".title-wrap > .title"));
+
+                    }else if(ev.keyCode == 40){ //down
+                        ev.preventDefault();
+                        var $li = $(ev.target).parent().parent();
+                        var $nextLi;
+                        if($li.find("ul li:first-child").size() > 0) {
+                            $nextLi = $li.find("ul li:first-child")
+                        }else if($li.next().size() > 0) {
+                            $nextLi = $li.next();
+                        }else{
+                            $nextLi = $li.parents("li").not(function(){
+                                return ($(this).next().size() == 0)
+                            }).first().next();
+                        }
+
+                        $nextLi[0] && focus($nextLi.find(".title-wrap > .title"));
+                    }
+                });
+
+                function focus(target){
+                    var rawTarget = target[0];
+                    window.getSelection().collapse(rawTarget, rawTarget.length);
+                }
+            }
+
+        </script>
+    </body>
+</html>
