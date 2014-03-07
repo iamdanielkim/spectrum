@@ -1,0 +1,3 @@
+[submodule "vendor/gherkin-syntax-highlighters"]
+	path = vendor/gherkin-syntax-highlighters
+	url = git@github.com:iamdanielkim/gherkin-syntax-highlighters.git
