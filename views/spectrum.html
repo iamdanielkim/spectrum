@@ -2,9 +2,13 @@
   <head>
     <title> {{name}}</title>
     <link href="/style.css" rel="stylesheet" type="text/css">
+    <link href="/stylesheets/livelist.css" rel="stylesheet" type="text/css">
     <link href="/toastr/toastr.css" rel="stylesheet"/>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="/file-upload/css/jquery.fileupload.css">
+    <style>
+
+    </style>
   </head>
 
   <body>
@@ -54,97 +58,109 @@
     <script src="/javascripts/webclient/share.uncompressed.js"></script>
     <script src="/javascripts/webclient/ace.js"></script>
 
+    <script src="/javascripts/livelist/livelist.js"></script>
+    <script src="/javascripts/livelist/serializer.js"></script>
     <script src="http://twitter.github.com/hogan.js/builds/2.0.0/hogan-2.0.0.js"></script>
     <script>
 
 $(document).ready(function() {
-    window.ae = createEditor('{{{docName}}}');
+    var editor = window.ae = createEditor('{{{docName}}}');
 
-    function createEditor(docName){
-        var converter = new Showdown.converter();
-        var view = document.getElementById('view');
+    slidePanels();
+    renderPagetree();
+    bindFileUpload(ae);
+})
 
-        var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/solarized_dark");
-        var GherkinMode = require('ace/mode/gherkin-en').Mode;
-        editor.getSession().setMode(new GherkinMode());
-        editor.getSession().setTabSize(2);
+function createEditor(docName){
+    var converter = new Showdown.converter();
+    var view = document.getElementById('view');
 
-        editor.setReadOnly(false);
-        editor.session.setUseWrapMode(true);
-        editor.setShowPrintMargin(true);
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/solarized_dark");
+    var GherkinMode = require('ace/mode/gherkin-en').Mode;
+    editor.getSession().setMode(new GherkinMode());
+    editor.getSession().setTabSize(2);
+
+    editor.setReadOnly(false);
+    editor.session.setUseWrapMode(true);
+    editor.setShowPrintMargin(true);
 
 
-        var connection = new sharejs.Connection('/channel');
-        connection.open(docName, function(error, doc) {
+    var connection = new sharejs.Connection('/channel');
+    connection.open(docName, function(error, doc) {
         if (error) {
-          console.error(error);
-          return;
+            console.error(error);
+            return;
         }
         doc.attach_ace(editor);
         editor.setReadOnly(false);
 
         var render = function() {
-          view.innerHTML = converter.makeHtml(doc.snapshot);
+            view.innerHTML = converter.makeHtml(doc.snapshot);
         };
 
         render();
         doc.on('change', render);
-        });
-        return editor;
-    }
+    });
+    return editor;
+}
 
-  (function(){ // slide panels
-        setTimeout(function(){
-            $("#editor").animate({ left: "94%" }, 700);
-            $("#left").animate({ width: "76%" }, 900);
-        }, 1000)
+function slidePanels(){
+    setTimeout(function(){
+        $("#editor").animate({ left: "94%" }, 700);
+        $("#left").animate({ width: "76%" }, 900);
+    }, 1000)
 
-        var toggle = false;
-        $("#left").click(function() {
+    var toggle = false;
+    $("#left").click(function() {
 
-            if(toggle){
-                $("#editor").animate({ left: "94%" }, 300);
-                $("#left").animate({ width: "76%" }, 500);
-                toggle = false;
-            }else{
-                $("#editor").animate({ left: "60%" }, 300);
-                $("#left").animate({ width: "40%"}, 500);
-                toggle = true;
+        if(toggle){
+            $("#editor").animate({ left: "94%" }, 300);
+            $("#left").animate({ width: "76%" }, 500);
+            toggle = false;
+        }else{
+            $("#editor").animate({ left: "60%" }, 300);
+            $("#left").animate({ width: "40%"}, 500);
+            toggle = true;
+        }
+    });
+}
+
+
+function renderPagetree(){ // render page tree
+    $.ajax({
+        url: "/pages",
+        context: document.body
+    }).done(function(data) {
+        console.log(livelistSerializer)
+        var list = livelistSerializer.jsonToLive(data, "root");
+        $("#pages").html(list);
+        livelist("#pages .root", {
+            "shift+enter": function(item){
+                location.href="/pages/" + item.title;
             }
         });
-  })();
-
-  (function(){ // render page tree
-    var tpl =  "<ul>" +
-        " {" + "{" + "#list}}" +
-        "   <li >" +
-                "<span class='title' contenteditable>{"+"{title}}</span>" +
-                "<a href='{"+"{url}}' class='btn btn-link'>" +
-                    "<i class='glyphicon glyphicon-circle-arrow-right'></i>" +
-                "</a>" +
-        "   </li>" +
-        " {"+"{/list}}" +
-        " </ul>" ;
-      console.log(tpl)
-    var template = Hogan.compile(tpl);
-
-    $.ajax({
-      url: "/pages",
-      context: document.body
-    }).done(function(data) {
-        $("#pages").html(template.render({list: data}));
     });
 
     $.ajax({
-      url: "/features",
-      context: document.body
+        url: "/features",
+        context: document.body
     }).done(function(data) {
-      $("#features").html(template.render({list: data}));
+        var list = livelistSerializer.jsonToLive(data, "root");
+        $("#features").html(list);
+        livelist($("#features .root"), {
+            "shift+enter": function(item){
+                location.href="/features/" + item.title;
+            }
+        });
     });
-  })();
 
-  (function (editor) { // file upload
+
+
+}
+
+
+function bindFileUpload(editor) { // file upload
     $('#fileupload').fileupload({
         dataType: 'json',
         progress: function (e, data) {
@@ -156,7 +172,6 @@ $(document).ready(function() {
         },
         done: function (e, data) {
             var filename = data.files[0].name;
-            console.log("DDD = ", filename);
             toastr.success("Upload Complete :D")
             editor.splitLine()
             editor.splitLine()
@@ -168,10 +183,7 @@ $(document).ready(function() {
             );
         }
     });
-  })(ae);
-})
-
-
+}
 
 
     </script>

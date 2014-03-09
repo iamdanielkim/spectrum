@@ -25,7 +25,8 @@ span.fileinput-button {
 }
 
 #left-panel {
-  background-color: #002B36;
+  background-color: #fff;
+  box-shadow: 1px 1px 10px #888;
 	margin: 0;
 	position: fixed;
 	overflow: scroll;
@@ -38,12 +39,15 @@ span.fileinput-button {
   color: #93A1A1;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
+
+/*
 #left-panel a, #left-panel a:visited {
   color: #D30102;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
   font-size: 10pt;
   text-decoration: none;
 }
+
 
 #left-panel .title {
   display: inline-block;
@@ -57,6 +61,7 @@ span.fileinput-button {
   height: 18px;
   margin-top: 1px;
 }
+*/
 
 #left {
 	margin: 0;
