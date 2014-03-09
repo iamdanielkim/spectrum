@@ -1,0 +1,11 @@
+.title-wrap { border-bottom: 1px solid #fff; }
+.hover > .title-wrap { border-bottom: 1px solid red; }
+
+.drag { display:none; cursor: pointer; float:right;}
+.hover > .title-wrap > .drag { display:inline; }
+.go { display:none; cursor: pointer; float:right;}
+.hover > .title-wrap > .go { display:inline; }
+
+
+.title { min-width:5px; display:inline-block;}
+
