@@ -20,25 +20,29 @@
             <span></span>
             <input id="fileupload" type="file" name="files[]" data-url="/upload" multiple>
         </span>
-        Wiki <strong>{{name}}</strong>
+        <strong>{{name}}</strong>
       </div>
 
     </div>
     <div id="left-panel">
-      <a href="/pages"><h3>Pages</h3></a>
-      <div id="pages" class="list">
+      <div class="pages-wrap">
+        <a href="/pages"><h3>Pages</h3></a>
+        <div id="pages" class="list">
 
+        </div>
       </div>
+      <div class="features-wrap">      
+        <a href="/features"><h3>Features</h3></a>
+        <div id="features" class="list">
 
-      <a href="/features"><h3>Features</h3></a>
-      <div id="features" class="list">
-
+        </div>
       </div>
     </div>
+    <div id="editor">{{{content}}}</div>
     <div id="left">
       <div id="view" class="content">{{{markdown}}}</div>
     </div>
-    <div id="editor">{{{content}}}</div>
+
 
     <script>
     var docName = '{{{docName}}}';

@@ -15,31 +15,35 @@ require.config({paths: {
 
 require([
   'jquery',
-  'gherkin/lexer/en',
   'ace/ace',
   'ace/mode/coffee',
   'ace/theme/solarized_dark',
   'ace/mode/gherkin-en',
   'showdown',
-  'sharejs'
-  ], function($, lexer, ace, modeCoffee, themeSolarizedDark, modeGherkin) {
+  'sharejs',
+  'gherkin/lexer/en'
+  ], function($, ace, modeCoffee, themeSolarizedDark, modeGherkin) {
 
     $(document).ready(function() {
-
+      renderPagetree();
       var editor = window.ae = createEditor(ace, docName);
 
-      // sharejs/ace depend on variable window.ace
-      window.ace = ace;
+      window.ace = ace;  // sharejs/ace depend on variable window.ace
       require(['sharejs/ace'], function(){
         shareEditor(editor, docName);
       });
 
-      require(['jquery', 'jquery.ui.widget','fileupload/jquery.iframe-transport', 'fileupload/jquery.fileupload', 'toastr'], function() {
+      require([
+        'jquery',
+        'jquery.ui.widget',
+        'fileupload/jquery.iframe-transport',
+        'fileupload/jquery.fileupload',
+        'toastr'], function() {
         bindFileUpload(editor);
       })
 
       slidePanels();
-      renderPagetree();
+
     });
 });
 
@@ -47,8 +51,9 @@ function createEditor(ace, docName){
   var view = document.getElementById('view');
 
   var editor = ace.edit("editor");
-  editor.setTheme("ace/theme/solarized_dark");
+  //editor.setTheme("ace/theme/solarized_dark");
   var GherkinMode = require('ace/mode/gherkin-en').Mode;
+  editor.renderer.setShowGutter(false);
   editor.getSession().setMode(new GherkinMode());
   editor.getSession().setTabSize(2);
 
@@ -61,6 +66,50 @@ function createEditor(ace, docName){
 
 function shareEditor(editor, docName){
   var converter = new Showdown.converter();
+
+  var Lexer = require('gherkin/lexer/en');
+  var output = [];
+  var listener = {
+    comment: function(value, line) {
+      console.log(value);
+    },
+    tag: function(value, line) {
+      output.push('<button type="button" class="btn btn-xs btn-primary">' + value + '</button>');
+    },
+    feature: function(keyword, name, description, line) {
+      output.push("<h2>" + name + "</h2>");
+      output.push(converter.makeHtml(description));
+      output.push("<p><hr></p>");
+    },
+    background: function(keyword, name, description, line) {
+      output.push("<h3>" + keyword + ': ' + name + "</h3>");
+    },
+    scenario: function(keyword, name, description, line) {
+      output.push("<h3>" + name + "</h3>");
+      output.push("<h3>" + description + "</h3>");
+    },
+    scenario_outline: function(keyword, name, description, line) {
+      output.push("<h3>" + name + "</h3>");
+      output.push("<h3>" + description + "</h3>");
+    },
+    examples: function(keyword, name, description, line) {
+      console.log('  ' + keyword + ': ' + name);
+    },
+    step: function(keyword, name, line) {
+      output.push("<b>" + keyword + "</b> "+ name + "<br/>");
+    },
+    doc_string: function(content_type, string, line) {
+      output.push('<pre>      """\n' + string + '\n      """</pre>');
+    },
+    row: function(row, line) {
+      console.log('      | ' + row.join(' | ') + ' |');
+    },
+    eof: function() {
+      console.log('=====');
+    }
+  };
+  var lexer = new Lexer(listener);
+
   var connection = new sharejs.Connection('/channel');
 
   connection.open(docName, function(error, doc) {
@@ -72,7 +121,11 @@ function shareEditor(editor, docName){
     editor.setReadOnly(false);
 
     var render = function() {
-        view.innerHTML = converter.makeHtml(doc.snapshot);
+        output = ["<p>&nbsp;</p>"];
+        lexer.scan(doc.snapshot);
+        //view.innerHTML = converter.makeHtml(doc.snapshot);
+        view.innerHTML = output.join(" ");
+
     };
 
     render();
@@ -81,24 +134,28 @@ function shareEditor(editor, docName){
 }
 
 function slidePanels(){
+  /*
   setTimeout(function(){
     $("#editor").animate({ left: "94%" }, 700);
     $("#left").animate({ width: "76%" }, 900);
   }, 1000)
 
+*/
+
   var toggle = false;
-  $("#left").click(function() {
+  $("#header").click(function() {
 
     if(toggle){
-        $("#editor").animate({ left: "94%" }, 300);
-        $("#left").animate({ width: "76%" }, 500);
+        //$("#editor").animate({ left: "94%" }, 300);
+        $("#left-panel").animate({ width: "20%" }, 200);
         toggle = false;
     }else{
-        $("#editor").animate({ left: "60%" }, 300);
-        $("#left").animate({ width: "40%"}, 500);
+        //$("#editor").animate({ left: "60%" }, 300);
+        $("#left-panel").animate({ width: "60%"}, 200);
         toggle = true;
     }
   });
+
 }
 
 
@@ -107,7 +164,6 @@ function renderPagetree(){ // render page tree
     url: "/pages",
     context: document.body
   }).done(function(data) {
-    console.log(livelistSerializer)
     var list = livelistSerializer.jsonToLive(data, "root");
     $("#pages").html(list);
     livelist("#pages .root", {

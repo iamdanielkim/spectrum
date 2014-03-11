@@ -9,6 +9,7 @@ body {
 	height: 30px;
 	width: 100%;
 	background-color: black;
+	font-family: baskerville, palatino, 'palatino linotype', georgia,serif;
 }
 
 span.fileinput-button {
@@ -21,11 +22,13 @@ span.fileinput-button {
 
 	padding-left: 10px;
 	color: white;
-	font-family: baskerville, palatino, 'palatino linotype', georgia,serif;
+	font-family: Monaco, Menlo, 'Ubuntu Mono', Consolas, source-code-pro, monospace
 }
 
 #left-panel {
-  background-color: #fff;
+	z-index: 10;
+	background-color: #333;
+  color: #fff;
   box-shadow: 1px 1px 10px #888;
 	margin: 0;
 	position: fixed;
@@ -36,9 +39,24 @@ span.fileinput-button {
 	left: 0;
 	right: 0;
 	width: 20%;
-  color: #93A1A1;
+  /*color: #93A1A1;*/
+	font-size: 8pt;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
+#left-panel .pages-wrap, #left-panel .features-wrap { float: left; }
+
+.title-wrap { border-bottom: 1px solid #333 !important; }
+.hover > .title-wrap { color: red; border-bottom: 1px solid red !important; }
+
+.drag { display:none; cursor: pointer; float:right;}
+.hover > .title-wrap > .drag { display:inline; }
+.go { display:none; cursor: pointer; float:right;}
+.hover > .title-wrap > .go { display:inline; }
+
+
+.title { min-width:5px; display:inline-block;}
+
+
 
 /*
 #left-panel a, #left-panel a:visited {
@@ -63,6 +81,18 @@ span.fileinput-button {
 }
 */
 
+#editor {
+	margin: 0;
+	margin-left: 8px;
+	position: fixed;
+	top: 30px;
+	bottom: 0;
+	left: 20%;
+	right: 0;
+	width: 40%;
+}
+
+
 #left {
 	margin: 0;
 	position: fixed;
@@ -70,12 +100,14 @@ span.fileinput-button {
 	float: left;
 	top: 30px;
 	bottom: 0;
-	left: 20%;
-	right: 0;
+	left: 60%;
 	width: 40%;
-  user-select: none;
-  -moz-user-select: none;
-  -webkit-user-select: none;
+	right: 0;
+	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	box-shadow:  1px 1px 10px #888;
+
 }
 
 #view {
@@ -83,16 +115,6 @@ span.fileinput-button {
 	padding-right: 30px;
 }
 #view img {
-  width: 90%;
+	width: 90%;
+	box-shadow: 1px 1px 10px #888;
 }
-
-#editor {
-	margin: 0;
-	position: fixed;
-	top: 30px;
-	bottom: 0;
-	left: 60%;
-	width: 40%;
-	right: 0;
-}
-
