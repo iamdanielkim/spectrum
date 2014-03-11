@@ -44,6 +44,7 @@ span.fileinput-button {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
 #left-panel .pages-wrap, #left-panel .features-wrap { float: left; }
+#left-panel.expand .features-wrap {margin-left:25%; }
 
 .title-wrap { border-bottom: 1px solid #333 !important; }
 .hover > .title-wrap { color: red; border-bottom: 1px solid red !important; }
@@ -81,6 +82,9 @@ span.fileinput-button {
 }
 */
 
+#editor.init{
+	color: #fff;
+}
 #editor {
 	margin: 0;
 	margin-left: 8px;
@@ -107,7 +111,7 @@ span.fileinput-button {
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	box-shadow:  1px 1px 10px #888;
-
+	background: #F6F6F6;
 }
 
 #view {
@@ -117,4 +121,12 @@ span.fileinput-button {
 #view img {
 	width: 90%;
 	box-shadow: 1px 1px 10px #888;
+}
+#view dt {
+	float:left;
+	clear:left;
+	padding-right: 6px;
+	width: 70px;
+	text-align: right;
+	font-weight: 300;
 }

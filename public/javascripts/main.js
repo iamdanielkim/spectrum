@@ -60,7 +60,7 @@ function createEditor(ace, docName){
   editor.setReadOnly(false);
   editor.session.setUseWrapMode(true);
   editor.setShowPrintMargin(true);
-
+  $("#editor").removeClass("init");
   return editor;
 }
 
@@ -96,7 +96,7 @@ function shareEditor(editor, docName){
       console.log('  ' + keyword + ': ' + name);
     },
     step: function(keyword, name, line) {
-      output.push("<b>" + keyword + "</b> "+ name + "<br/>");
+      output.push("<dt>" + keyword + "</dt> <dd>"+ name + "</dd>");
     },
     doc_string: function(content_type, string, line) {
       output.push('<pre>      """\n' + string + '\n      """</pre>');
@@ -147,11 +147,12 @@ function slidePanels(){
 
     if(toggle){
         //$("#editor").animate({ left: "94%" }, 300);
-        $("#left-panel").animate({ width: "20%" }, 200);
+        $("#left-panel").animate({ width: "20%" }, 200).removeClass("expand");
         toggle = false;
     }else{
         //$("#editor").animate({ left: "60%" }, 300);
-        $("#left-panel").animate({ width: "60%"}, 200);
+        $("#left-panel").addClass("expand").animate({ width: "60%"}, 200);
+
         toggle = true;
     }
   });
