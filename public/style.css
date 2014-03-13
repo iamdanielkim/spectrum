@@ -115,18 +115,60 @@ span.fileinput-button {
 }
 
 #view {
-	padding-left: 30px;
-	padding-right: 30px;
+  padding: 10px 10px 30px 10px;
 }
+
 #view img {
 	width: 90%;
 	box-shadow: 1px 1px 10px #888;
 }
+
+#view fieldset {
+  padding: .35em .625em .75em;
+  margin: 10px 2px 25px 2px;
+  border: 1px solid #c0c0c0;
+}
+
+#view legend {
+  border: 0px;
+  text-align: center;
+}
+
+#view pre {
+  margin-left: 25px;
+  margin-right: 8px;
+  border-style: dotted;
+}
+
+
+#view h2,#view h3,#view h4,#view h5{
+  text-shadow: 4px 4px 6px #888;
+}
+
+
+
+#view h2{
+	font-size: 24px;
+}
+
+#view h3{
+	font-size: 20px;
+}
+
+#view h4{
+	font-size: 16px;
+}
+
 #view dt {
 	float:left;
 	clear:left;
 	padding-right: 6px;
-	width: 70px;
+	width: 50px;
 	text-align: right;
 	font-weight: 300;
+  font-size: 0.8em;
+  color: #93A1A1;
 }
+
+
+

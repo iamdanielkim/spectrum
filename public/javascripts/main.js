@@ -2,7 +2,9 @@
 require.config({paths: {
     "jquery": "/jquery/dist/jquery.min",
     "jquery.ui.widget": "/jquery-ui/ui/jquery.ui.widget",
-    "ace": "/ace/lib/ace",
+    "ace/ace": "/ace-builds/src/ace",
+    "ace/mode/coffee": "/ace-builds/src/mode-coffee",
+    "ace/theme/solarized_dark": "/ace-builds/src/theme-solarized_dark",
     "gherkin": "/javascripts/gherkin",
     "fileupload": "/blueimp-file-upload/js",
     "toastr": "/toastr/toastr",
@@ -29,10 +31,10 @@ require([
       var editor = window.ae = createEditor(ace, docName);
 
       window.ace = ace;  // sharejs/ace depend on variable window.ace
-      require(['sharejs/ace'], function(){
+      /*require(['sharejs/ace'], function(){
         shareEditor(editor, docName);
       });
-
+      */
       require([
         'jquery',
         'jquery.ui.widget',
@@ -53,6 +55,7 @@ function createEditor(ace, docName){
   var editor = ace.edit("editor");
   //editor.setTheme("ace/theme/solarized_dark");
   var GherkinMode = require('ace/mode/gherkin-en').Mode;
+
   editor.renderer.setShowGutter(false);
   editor.getSession().setMode(new GherkinMode());
   editor.getSession().setTabSize(2);
@@ -67,51 +70,101 @@ function createEditor(ace, docName){
 function shareEditor(editor, docName){
   var converter = new Showdown.converter();
 
-  var Lexer = require('gherkin/lexer/en');
-  var output = [];
-  var listener = {
-    comment: function(value, line) {
-      console.log(value);
-    },
-    tag: function(value, line) {
-      output.push('<button type="button" class="btn btn-xs btn-primary">' + value + '</button>');
-    },
-    feature: function(keyword, name, description, line) {
-      output.push("<h2>" + name + "</h2>");
-      output.push(converter.makeHtml(description));
-      output.push("<p><hr></p>");
-    },
-    background: function(keyword, name, description, line) {
-      output.push("<h3>" + keyword + ': ' + name + "</h3>");
-    },
-    scenario: function(keyword, name, description, line) {
-      output.push("<h3>" + name + "</h3>");
-      output.push("<h3>" + description + "</h3>");
-    },
-    scenario_outline: function(keyword, name, description, line) {
-      output.push("<h3>" + name + "</h3>");
-      output.push("<h3>" + description + "</h3>");
-    },
-    examples: function(keyword, name, description, line) {
-      console.log('  ' + keyword + ': ' + name);
-    },
-    step: function(keyword, name, line) {
-      output.push("<dt>" + keyword + "</dt> <dd>"+ name + "</dd>");
-    },
-    doc_string: function(content_type, string, line) {
-      output.push('<pre>      """\n' + string + '\n      """</pre>');
-    },
-    row: function(row, line) {
-      console.log('      | ' + row.join(' | ') + ' |');
-    },
-    eof: function() {
-      console.log('=====');
-    }
+
+  var Parser = function(){
+
+    var feature = [];
+    var background = [];
+    var scenario = [];
+    var table = [];
+
+    var output = [];
+
+    var insideScenario = false, insideBackground = false;
+    this.listener = {
+      comment: function(value, line) {
+        //console.log(value);
+      },
+      tag: function(value, line) {
+        output.push('<button type="button" class="btn btn-xs btn-primary">' + value + '</button>');
+      },
+      feature: function(keyword, name, description, line) {
+        output.push("<h2>" + name + "</h2>");
+        output.push(converter.makeHtml(description));
+        output.push("<p><hr></p>");
+      },
+      background: function(keyword, name, description, line) {
+        background.push("<h3>Background " + name + "</h3>");
+        insideBackground = true;
+      },
+      scenario: function(keyword, name, description, line) {
+        if(insideBackground){
+          output.push(background.join(" "));
+          output.push("<h3>Examples</h3>");
+          background = [];
+          insideBackground = false;
+        }
+        if(insideScenario){
+          output.push("<fieldset class='scenario'>" + scenario.join(" ") + "</fieldset>");
+          scenario = [];
+          insideScenario = false;
+        }
+        scenario.push("<legend><h4>" + name + "</h4></legend>");
+        scenario.push("" + description + "");
+        insideScenario = true;
+
+      },
+      scenario_outline: function(keyword, name, description, line) {
+        if(insideBackground){
+          output.push(background.join(" "));
+          background = [];
+          insideBackground = false;
+        }
+        if(insideScenario){
+          output.push("<fieldset class='scenario'>" + scenario.join(" ") + "</fieldset>");
+          scenario = [];
+          insideScenario = false;
+        }
+        scenario.push("<legend><h4>" + name + "</h4></legend>");
+        scenario.push("" + description + "");
+        insideScenario = true;
+      },
+      examples: function(keyword, name, description, line) {
+        scenario.push("<h4>" + keyword + ': ' + name + "</h4>");
+      },
+      step: function(keyword, name, line) {
+        if(insideBackground){
+          background.push("<dt>" + keyword + "</dt> <dd>"+ name + "</dd>");
+          console.log("A")
+        }else{
+          scenario.push("<dt>" + keyword + "</dt> <dd>"+ name + "</dd>");
+        }
+      },
+      doc_string: function(content_type, string, line) {
+        scenario.push('<pre>' + string + '</pre>');
+      },
+      row: function(row, line) {
+        scenario.push('      | ' + row.join(' | ') + ' |');
+      },
+      eof: function() {
+        if(insideScenario){
+          output.push("<fieldset class='scenario'>" + scenario.join(" ") + "</fieldset>");
+          scenario = [];
+          insideScenario = false;
+        }
+        console.log('=====');
+      }
+    };
+    this.render = function(){
+      var result = output.join(" ");
+      output = [];
+      return result;
+    };
   };
-  var lexer = new Lexer(listener);
+
+  var Lexer = require('gherkin/lexer/en');
 
   var connection = new sharejs.Connection('/channel');
-
   connection.open(docName, function(error, doc) {
     if (error) {
         console.error(error);
@@ -121,10 +174,13 @@ function shareEditor(editor, docName){
     editor.setReadOnly(false);
 
     var render = function() {
-        output = ["<p>&nbsp;</p>"];
+       var parser = new Parser();
+        var lexer = new Lexer(parser.listener);
+//      lexer.scan(editor.getValue());
         lexer.scan(doc.snapshot);
+
         //view.innerHTML = converter.makeHtml(doc.snapshot);
-        view.innerHTML = output.join(" ");
+        view.innerHTML = parser.render();
 
     };
 

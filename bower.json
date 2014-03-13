@@ -29,6 +29,8 @@
     "jquery": "1.11.0",
     "jquery-ui": "*",
     "bootstrap": "*",
-    "marked": "*"
+    "marked": "*",
+    "requirejs": "~2.1.11",
+    "ace": "~1.1.3"
   }
 }
