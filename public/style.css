@@ -131,7 +131,9 @@ span.fileinput-button {
 
 #view legend {
   border: 0px;
-  text-align: center;
+  text-align: left;
+	padding-left: 10px;
+	margin-bottom: 10px;
 }
 
 #view pre {
@@ -139,9 +141,14 @@ span.fileinput-button {
   margin-right: 8px;
   border-style: dotted;
 }
+#view pre.table {
+	margin: 0px;
+	padding: 0px;
+	border-style: none !important;
+}
 
 
-#view h2,#view h3,#view h4,#view h5{
+#view h2,#view h3,#view h4{
   text-shadow: 4px 4px 6px #888;
 }
 
@@ -158,6 +165,11 @@ span.fileinput-button {
 #view h4{
 	font-size: 16px;
 }
+#view h5{
+	font-size: 13px;
+	margin-left: 15px;
+}
+
 
 #view dt {
 	float:left;
@@ -169,6 +181,3 @@ span.fileinput-button {
   font-size: 0.8em;
   color: #93A1A1;
 }
-
-
-
