@@ -61,10 +61,9 @@ define("spectrum/gherkin/htmlconverter", ['gherkin/lexer/en'], function(Lexer){
       },
       step: function(keyword, name, line) {
         if(insideBackground){
-          background.push("<dt>" + keyword + "</dt> <dd>"+ name.replace("<","&lt;") + "</dd>");
-          console.log("A")
+          background.push("<dt>" + keyword + "</dt> <dd>"+ name.replace(/</g,"&lt;") + "</dd>");
         }else{
-          scenario.push("<dt>" + keyword + "</dt> <dd>"+ name.replace("<","&lt;") + "</dd>");
+          scenario.push("<dt>" + keyword + "</dt> <dd>"+ name.replace(/</g,"&lt;") + "</dd>");
         }
       },
       doc_string: function(content_type, string, line) {
