@@ -37,20 +37,22 @@ options =
 sharejs.server.attach(app, options);
 
 # routes
+app.get '/', (req, res) ->
+  res.redirect '/pages/Home'
+
+
 require('./wiki')(app)
 
 fs = require('fs')
 
 app.post '/upload', (req, res) ->
-  save req.files, (err) ->
+  saveFile req.files, (err) ->
     if(err)
       console.log(err)
     else
       res.send(req.files.files[0])
 
-
-save = (files, callback) ->
-  console.log(files)
+saveFile = (files, callback) ->
   uploaded = files.files[0]
   fs.readFile uploaded.path, (err, data)->
     newPath = __dirname + "/../attachments/" + uploaded.name
@@ -82,5 +84,3 @@ app.get '/features/:docName/attachments/:fileName', (req, res) ->
 # set our app port and start the app
 port = 5000
 app.listen(port, () -> console.log("Listening on " + port))
-
-

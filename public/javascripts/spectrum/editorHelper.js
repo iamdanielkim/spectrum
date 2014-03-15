@@ -26,7 +26,7 @@ define("spectrum/editorHelper", [
         $("#editor").removeClass("init");
         setTimeout(function(){
           editor.getSession().setScrollTop(0);
-        },200);
+        }, 400);
 
         require(['sharejs/ace'], function(){
           applySharejs(editor, docName);
