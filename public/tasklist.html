@@ -5,14 +5,8 @@
         <style>
             h1 { padding: .2em; margin: 0; }
 
-            .title-wrap { border-bottom: 1px solid #fff; }
-            .hover > .title-wrap { border-bottom: 1px solid red; }
-
-            .drag { display:none;}
-            .hover > .title-wrap > .drag { display:inline; cursor: move; float:right;}
-
-            .title { min-width:5px; display:inline-block;}
         </style>
+        <link href="/stylesheets/livelist.css" rel="stylesheet" type="text/css">
     </head>
     <body>
         <div class="drag">+</div>
@@ -20,52 +14,81 @@
         <div id="panel">
 
             <ul class="tree root">
-                <li class="item" id="t">
+                <li class="item" id="89">
                     <div class="title-wrap"><span class="title" contenteditable>하하하</span> <span class="drag">+</span></div>
                     <ul class="tree">
-                         <li class="item"><div class="title-wrap"><span class="title" contenteditable>하하하</span> <span class="drag">+</span></div></li>
-                         <li class="item"><div class="title-wrap"><span class="title" contenteditable>헤헤</span> <span class="drag">+</span></div></li>
-                         <li class="item"><div class="title-wrap"><span class="title" contenteditable>후후</span> <span class="drag">+</span></div></li>
-                         <li class="item"><div class="title-wrap"><span class="title" contenteditable="">ㅋㅋㅋ</span> <span class="drag">+</span></div>
+                         <li id="90" class="item"><div class="title-wrap"><span class="title" contenteditable>하하하</span> <span class="drag">+</span></div></li>
+                         <li id="91" class="item"><div class="title-wrap"><span class="title" contenteditable>헤헤</span> <span class="drag">+</span></div></li>
+                         <li id="92" class="item"><div class="title-wrap"><span class="title" contenteditable>후후</span> <span class="drag">+</span></div></li>
+                         <li id="93" class="item"><div class="title-wrap"><span class="title" contenteditable="">ㅋㅋㅋ</span> <span class="drag">+</span></div>
                              <ul class="tree">
-                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">A</span> <span class="drag">+</span></div></li>
-                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">B</span> <span class="drag">+</span></div></li>
-                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">c</span> <span class="drag">+</span></div></li>
-                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">d</span> <span class="drag">+</span></div></li>
+                                 <li id="94" class="item"><div class="title-wrap"><span class="title" contenteditable="">A</span> <span class="drag">+</span></div></li>
+                                 <li id="95" class="item"><div class="title-wrap"><span class="title" contenteditable="">B</span> <span class="drag">+</span></div></li>
+                                 <li id="96" class="item"><div class="title-wrap"><span class="title" contenteditable="">c</span> <span class="drag">+</span></div></li>
+                                 <li id="97" class="item"><div class="title-wrap"><span class="title" contenteditable="">d</span> <span class="drag">+</span></div></li>
                              </ul>
                          </li>
-                         <li class="item"><div class="title-wrap"><span class="title" contenteditable="">!!!!</span> <span class="drag">+</span></div>
+                         <li id="98" class="item"><div class="title-wrap"><span class="title" contenteditable="">!!!!</span> <span class="drag">+</span></div>
                              <ul class="tree">
                                  <li class="item"><div class="title-wrap"><span class="title" contenteditable="">@@@@</span> <span class="drag">+</span></div></li>
                              </ul>
                          </li>
-                         <li class="item"><div class="title-wrap"><span class="title" contenteditable="">1</span> <span class="drag">+</span></div>
+                         <li id="99" class="item"><div class="title-wrap"><span class="title" contenteditable="">1</span> <span class="drag">+</span></div>
                              <ul class="tree">
-                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">2</span> <span class="drag">+</span></div></li>
-                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">3</span> <span class="drag">+</span></div></li>
-                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">4</span> <span class="drag">+</span></div></li>
-                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">5</span> <span class="drag">+</span></div></li>
+                                 <li id="100" class="item"><div class="title-wrap"><span class="title" contenteditable="">2</span> <span class="drag">+</span></div></li>
+                                 <li id="101" class="item"><div class="title-wrap"><span class="title" contenteditable="">3</span> <span class="drag">+</span></div></li>
+                                 <li id="102" class="item"><div class="title-wrap"><span class="title" contenteditable="">4</span> <span class="drag">+</span></div></li>
+                                 <li id="103" class="item"><div class="title-wrap"><span class="title" contenteditable="">5</span> <span class="drag">+</span></div></li>
                              </ul>
                          </li>
 
                      </ul>
                 </li>
-                <li class="item"><div class="title-wrap"><span class="title" contenteditable="">w</span> <span class="drag">+</span></div></li>
-                <li class="item"><div class="title-wrap"><span class="title" contenteditable="">x</span> <span class="drag">+</span></div></li>
-                <li class="item"><div class="title-wrap"><span class="title" contenteditable="">y</span> <span class="drag">+</span></div></li>
-                <li class="item"><div class="title-wrap"><span class="title" contenteditable="">z</span> <span class="drag">+</span></div></li>
+                <li id="1000" class="item"><div class="title-wrap"><span class="title" contenteditable="">w</span> <span class="drag">+</span></div></li>
+                <li id="1001" class="item"><div class="title-wrap"><span class="title" contenteditable="">x</span> <span class="drag">+</span></div></li>
+                <li id="1002" class="item"><div class="title-wrap"><span class="title" contenteditable="">y</span> <span class="drag">+</span></div></li>
+                <li id="1003" class="item"><div class="title-wrap"><span class="title" contenteditable="">z</span> <span class="drag">+</span></div></li>
             </ul>
         </div>
         <div id="console"></div>
-        <script src="/jquery/dist/jquery.min.js"></script>
-        <script src="/jquery-ui/ui/jquery-ui.js"></script>
-        <script src="/javascripts/livelist/livelist.js"></script>
-        <script src="/javascripts/livelist/serializer.js"></script>
+        <script src="/requirejs/require.js"></script>
         <script>
+          require.config({
+            baseUrl: "/javascripts",
+            paths: {
+              "jquery": "/jquery/dist/jquery.min"
+          }});
+          require(["jquery", "livelist/livelist"], function($, livelist){
             $(document).ready(function(){
+                lt = [{"_id":"1000","title":"w","parent":"panel","next":"1001","children":[]},{"_id":"1001","title":"x","parent":"panel","prev":"1000","next":"1002","children":[]},{"_id":"1002","title":"y","parent":"panel","prev":"1001","next":"1003","children":[]},{"_id":"1003","title":"z","parent":"panel","prev":"1002","next":"e76ea399-b88d-459f-b305-803878f0bde1","children":[]},{"_id":"e76ea399-b88d-459f-b305-803878f0bde1","title":"asd","status":"_modified","parent":"panel","prev":"1003","next":"dd782860-ee37-41c7-c096-fe8cf696b688","children":[]},{"_id":"dd782860-ee37-41c7-c096-fe8cf696b688","title":"acas","status":"_modified","parent":"panel","prev":"e76ea399-b88d-459f-b305-803878f0bde1","next":"8ebba019-d324-46e5-96c8-f55d4668e2a1","children":[]},{"_id":"8ebba019-d324-46e5-96c8-f55d4668e2a1","title":"","status":"_created","parent":"panel","prev":"dd782860-ee37-41c7-c096-fe8cf696b688","children":[]}];
                 livelist(".root");
+                console.log(JSON.stringify(lt))
+                console.log(livelist.nestedSerializer.jsonToLive(lt));
+                /*
+<ul class="tree ">
+  <li class="item" id="1000" >
+    <div class="title-wrap"><span class="title" contenteditable>www</span><span class="go">></span><span class="drag">+</span> </div>
+    <ul class="tree ">
+      <li class="item" id="1001" >
+        <div class="title-wrap"><span class="title" contenteditable>xxx</span><span class="go">></span><span class="drag">+</span> </div>
+        <ul class="tree ">
+          <li class="item" id="1002" >
+            <div class="title-wrap"><span class="title" contenteditable>yyy</span><span class="go">></span><span class="drag">+</span> </div>
+          </li>
+        </ul>
+      </li>
+      <li class="item" id="32563c53-4566-43be-890a-eb64af856243" >
+        <div class="title-wrap"><span class="title" contenteditable>zzz</span><span class="go">></span><span class="drag">+</span> </div>
+      </li>
+    </ul>
+  </li>
+  <li class="item" id="1003" ><div class="title-wrap"><span class="title" contenteditable>end</span><span class="go">></span><span class="drag">+</span> </div></li>
+</ul>
+
+                */
             });
+          });
+
         </script>
     </body>
 </html>
-
