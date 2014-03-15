@@ -46,7 +46,17 @@ module.exports = (app) ->
     else
       document.saveIfNotAndRender(app.model, res)
 
+  app.get '/features/:docName/_delete', (req, res) ->
+    document = new GherkinDocument(req.params.docName)
+    redirectUrl = req.query.redirect || '/features'
 
+    document.deleteAndRedirect(app.model, redirectUrl, res)
+
+  app.get '/pages/:docName/_delete', (req, res) ->
+    document = new WikiDocument(req.params.docName)
+    redirectUrl = req.query.redirect || '/pages'
+
+    document.deleteAndRedirect(app.model, redirectUrl, res)
 
 
 
@@ -59,6 +69,3 @@ render = (content, name, docName, res) ->
     if (err)
       []
 ###
-
-
-

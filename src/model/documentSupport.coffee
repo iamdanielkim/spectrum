@@ -12,12 +12,18 @@ class DocumentSupport
       if error is 'Document does not exist'
         model.create self.key, 'text', ->
           content = self.stub()
-          console.log(content)
           model.applyOp self.key, {op:[{i:content, p:0}], v:0}, ->
             res.render 'spectrum', { content, name: self.name, docName: self.key}
       else
         content = data.snapshot
         res.render 'spectrum', { content, name: self.name, docName: self.key}
+
+  deleteAndRedirect: (model, redirectUrl, res) ->
+    self = this
+    console.log("key======", @key)
+    model.delete self.key, "a"
+
+    res.redirect redirectUrl
 
   raw: (model, res) ->
     model.getSnapshot @key, (error, data) ->
