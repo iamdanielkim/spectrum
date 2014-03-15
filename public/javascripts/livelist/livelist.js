@@ -17,6 +17,35 @@ define("livelist/livelist", ["jquery"], function($){
       $(ev.relatedTarget).parent().addClass("hover");
     });
 
+    $(".icon", hook).on("click", function(ev){
+      var icon = ev.currentTarget;
+      var $parent = $(icon).parent();
+      if($parent.hasClass("expand")){
+        $parent.removeClass("expand");
+      }else{
+        $(".expand", hook).removeClass("expand");
+        $parent.addClass("expand");
+      }
+      ev.stopPropagation();
+    });
+
+    $(".item .commands .open", hook).on("click", function(ev){
+      var open = ev.currentTarget;
+      var $item = $(open).parent().parent();
+
+      callback["shift+enter"] && callback["shift+enter"](livelistNestedSerializer.itemToJson($item));
+      ev.stopPropagation();
+    });
+
+    $(".item .commands .delete", hook).on("click", function(ev){
+      var open = ev.currentTarget;
+      var $item = $(open).parent().parent();
+
+      callback["cmd:delete"] && callback["cmd:delete"](livelistNestedSerializer.itemToJson($item), $item);
+      ev.stopPropagation();
+    });
+
+
     var i = 0;
     $(hook).keydown(function(ev){
       $(" .hover", hook).removeClass("hover");
@@ -27,8 +56,9 @@ define("livelist/livelist", ["jquery"], function($){
         var $tree = $item.parent();
         var $parentItem = $tree.parent();
 
-        $parentItem.after($item);
+        if($(hook).find($parentItem).size() == 0) return;
 
+        $parentItem.after($item);
         if($tree.children() == 0){
           $tree.remove();
         }
@@ -37,7 +67,7 @@ define("livelist/livelist", ["jquery"], function($){
         ev.preventDefault();
         var $span = $(ev.target);
         var $item = $span.parent().parent();
-        callback["shift+enter"] && callback["shift+enter"](livelistSerializer.itemToJson($item));
+        callback["shift+enter"] && callback["shift+enter"](livelistNestedSerializer.itemToJson($item));
 
       }else if(ev.keyCode == 9){ // tab
         ev.preventDefault();
@@ -145,9 +175,12 @@ define("livelist/livelist", ["jquery"], function($){
     }
     function newItem(){
       return '<li class="item" id="' + generateUUID() + '" status="_created">' +
+        '<a class="icon" href="#">#</a>' +
         '<div class="title-wrap">' +
-        '<span class="title" contenteditable>' + '</span><span class="go">></span><span class="drag">+</span> ' +
+        '<span class="title" contenteditable>' +
+        //'</span><span class="go">></span><span class="drag">+</span> ' +
         '</div>' +
+        '<div class="commands"><a class="open">열기</a> | <a class="delete">삭제</a></div>' +
         '</li>';
     }
 
@@ -165,7 +198,7 @@ define("livelist/livelist", ["jquery"], function($){
   var livelistSerializer = livelist.serializer = {
     treeToJson: function($tree){
       var list = [];
-      $("> .item", $tree).map(function(index) {
+      $(" .item", $tree).map(function(index) {
         list.push(livelistSerializer.itemToJson($(this)));
       });
       return list;
@@ -174,13 +207,30 @@ define("livelist/livelist", ["jquery"], function($){
       return {
         uuid: $item.attr("id"),
         title: $("> .title-wrap .title", $item).text(),
-        parent: $item.parent().parent().attr("id"),
         status: $item.attr("status"),
+        parents: (function(){
+          var list = [];
+          $item.parents(".item").map(function() {
+            list.push($(this).attr("id"));
+          });
+          return list;
+        })(),
+        parent: (function(){
+          var $parent = $item.parent().parent();
+          return $parent.prop("tagName") === "LI" ? $parent.attr("id") : "__ROOT__"
+        })(),
+        prev: $item.prev().attr("id"),
+        next: $item.next().attr("id"),
         children: (function(){
-          return $("> .tree > .item", $item).size() > 0 ? livelistSerializer.treeToJson($("> .tree", $item)) : [];
+          var list = [];
+          $("> .tree > .item", $item).map(function(index) {
+            list.push($(this).attr("id"));
+          });
+          return list;
         })()
       };
-    },
+    }
+    /*,
     jsonToLive: function(json, className){
         className = className || "";
         var output = [];
@@ -202,6 +252,56 @@ define("livelist/livelist", ["jquery"], function($){
             '<span class="title" contenteditable>' + json.title + '</span><span class="go">></span><span class="drag">+</span> ' +
           '</div>' +
           (json.children ? livelistSerializer.jsonToLive(json.children) : '') +
+        '</li>';
+    }*/
+  };
+
+  var livelistNestedSerializer = livelist.nestedSerializer = {
+    treeToJson: function($tree){
+      var list = [];
+      $("> .item", $tree).map(function(index) {
+        list.push(livelistNestedSerializer.itemToJson($(this)));
+      });
+      return list;
+    },
+    itemToJson: function($item){
+      return {
+        _id: $item.attr("id"),
+        _s: $item.attr("state"),
+        title: $("> .title-wrap .title", $item).text(),
+        status: $item.attr("status"),
+        parent: $item.parent().parent().attr("id"),
+        prev: $item.prev().attr("id"),
+        next: $item.next().attr("id"),
+        children: (function(){
+          return $("> .tree > .item", $item).size() > 0 ? livelistNestedSerializer.treeToJson($("> .tree", $item)) : [];
+        })()
+      };
+    },
+    jsonToLive: function(json, className){
+        className = className || "";
+        var output = [];
+        if(json.length > 0){
+          output.push('<ul class="tree ' + className +'">');
+          for(var i=0; i < json.length; i++){
+            var child = json[i];
+            output.push(livelistNestedSerializer.jsonToItem(child));
+          }
+          output.push('</ul>');
+        }
+        return output.join("\n");
+
+    },
+    jsonToItem: function(json){
+      return '' +
+        '<li class="item" id="' + json._id + '" >' +
+          '<a class="icon" href="#">#</a>' +
+          '<div class="title-wrap">' +
+            '<span class="title" contenteditable>' + json.title + '</span>' +
+            //'<span class="go">></span><span class="drag">+</span> ' +
+          '</div>' +
+          '<div class="commands"><a class="open">열기</a> | <a class="delete">삭제</a></div>' +
+          (json.children ? livelistNestedSerializer.jsonToLive(json.children) : '') +
         '</li>';
     }
   };
