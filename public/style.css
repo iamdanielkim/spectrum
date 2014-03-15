@@ -43,19 +43,34 @@ span.fileinput-button {
 	font-size: 8pt;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
 }
-#left-panel .pages-wrap, #left-panel .features-wrap { float: left; }
-#left-panel.expand .features-wrap {margin-left:25%; }
 
-.title-wrap { border-bottom: 1px solid #333 !important; }
-.hover > .title-wrap { color: red; border-bottom: 1px solid red !important; }
+.left-panel-help {
+	position:absolute;
+	width: 100%;
+	padding: 0px 0px 10px 10px;
+	bottom: 0px;
 
-.drag { display:none; cursor: pointer; float:right;}
-.hover > .title-wrap > .drag { display:inline; }
-.go { display:none; cursor: pointer; float:right;}
-.hover > .title-wrap > .go { display:inline; }
+	/*border-top: 1px dotted yellow;*/
+}
+.left-panel-help h5{
+	margin-left: 5px;
+}
 
+.left-panel-help dt {
+	float:left;
+	clear:left;
+	padding-right: 6px;
+	width: 80px;
+	text-align: left;
+	font-weight: 300;
+	font-size: 0.8em;
+	/*color: #93A1A1; */
+	color: yellow;
+}
 
-.title { min-width:5px; display:inline-block;}
+/*#left-panel .pages-wrap, #left-panel .features-wrap { float: left; }
+#left-panel.expand .features-wrap {margin-left:25%; } */
+
 
 
 
