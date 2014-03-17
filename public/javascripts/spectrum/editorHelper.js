@@ -53,12 +53,13 @@ define("spectrum/editorHelper", [
 //          var GherkinHtmlConverter = require('spectrum/gherkin/htmlconverter');
           var gherkinHtmlConverter = new GherkinHtmlConverter(new Showdown.converter());
           view.innerHTML = gherkinHtmlConverter.parse(editor.getValue());
+          $("#console").html("");
           //        view.innerHTML = converter.makeHtml(doc.snapshot);
         }catch(e){
           if(init){
             view.innerHTML = e.toString();
           }
-          console.log(e);
+          $("#console").html(e);
         }
       }
   };
