@@ -15,7 +15,8 @@ require.config({
 require([
   'jquery',
   "spectrum/pagetreeHelper",
-  'spectrum/editorHelper'
+  'spectrum/editorHelper',
+  'spectrum/gnbHelper',
   ], function($, pagetreeHelper, EditorHelper) {
 
     $(document).ready(function() {

@@ -11,7 +11,7 @@ define("spectrum/editorHelper", [
       this.create = function(){
         var view = document.getElementById('view');
 
-        var editor = ace.edit("editor");
+        var editor = window.editor = ace.edit("editor");
         //editor.setTheme("ace/theme/solarized_dark");
         editor.renderer.setShowGutter(false);
         var GherkinMode = require('ace/mode/gherkin-en').Mode;
