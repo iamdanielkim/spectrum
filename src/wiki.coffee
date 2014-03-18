@@ -16,7 +16,7 @@ module.exports = (app) ->
         pages = []
         for item in data
           title = item.replace(/ShareJS:doc:wiki:/g, '')
-          url = "/pages/" + title
+          url = "/pages/" + encodeURIComponent(title)
           pages.push {title, url}
         res.json(pages)
 
@@ -28,7 +28,7 @@ module.exports = (app) ->
         pages = []
         for item in data
           title = item.replace(/ShareJS:doc:feature:/g, '')
-          url = "/features/" + title
+          url = "/features/" + encodeURIComponent(title)
           pages.push {title, url}
         res.json(pages)
 
