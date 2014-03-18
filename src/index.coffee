@@ -7,9 +7,8 @@ sharejs = require('share')
 # create a express app
 app = express()
 
-app.set('port', process.env.PORT || 3000)
-app.set('views', path.join(__dirname, '../views'))
 
+app.set('views', path.join(__dirname, '../views'))
 app.set 'view engine', 'html'    # use .html extension for templates
 #app.set 'layout', 'layout'       # use layout.html as the default layout
 #app.set 'partials', foo: 'foo'   # define partials available to all pages
@@ -82,5 +81,5 @@ app.get '/features/:docName/attachments/:fileName', (req, res) ->
 
 
 # set our app port and start the app
-port = 5000
+port = process.env.PORT || 5000
 app.listen(port, () -> console.log("Listening on " + port))
