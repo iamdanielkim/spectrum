@@ -63,8 +63,70 @@
     <div id="viewer">
       <div id="view" class="content">{{{markdown}}}</div>
     </div>
+    <div id="shortcut">
+      <div class="gherkin-quick">
+<p>
+<a href="#"><span class="tag">Background:</span><span class="desc"></span></a>
+<a href="#">
+    <span class="tag">Scenario:</span>
+    <span class="desc">
+<pre>
+Scenario: Buy last coffee
+  Given there are 1 coffees left in the machine
+  And I have deposited 1$
+  When I press the coffee button
+  Then I should be served a coffee
+</pre></a>
+<a href="#"><span class="tag">Scenario Outline:</span><span class="desc">
+<pre>
+  Scenario Outline: eating
+  Given there are <start> cucumbers
+  When I eat <eat> cucumbers
+  Then I should have <left> cucumbers
+
+  Examples:
+    | start | eat | left |
+    |  12   |  5  |  7   |
+    |  20   |  5  |  15  |
+</pre>
+</span></a>
+</p><p>
+      </div>
+
+
+      <div class="md-quick">
+<p>
+<a href="#"><span class="tag">#</span><span class="desc"> Header1</span></a>
+<a href="#"><span class="tag">##</span><span class="desc"> Header2</span></a>
+<a href="#"><span class="tag">###</span><span class="desc"> Header3</span></a>
+<a href="#"><span class="tag">####</span><span class="desc"> Header4</span></a>
+<a href="#"><span class="tag">#####</span><span class="desc"> Header5</span></a>
+<a href="#"><span class="tag">######</span><span class="desc">  Header6</span></a>
+</p><p>
+<a href="#"><span class="tag">**</span><span class="desc">Bold</span><span class="tag">**</span></a>
+<a href="#"><span class="tag">*</span><span class="desc">Emphasize</span><span class="tag">*</span></a>
+<a href="#"><span class="tag">_</span><span class="desc">Underline</span><span class="tag">_</span></a>
+<a href="#"><span class="tag">~~</span><span class="desc">Strikethrough</span><span class="tag">~~</span></a>
+<a href="#"><span class="tag">==</span><span class="desc">Highlight</span><span class="tag">==</span></a>
+</p><p>
+<a href="#"><span class="tag">[</span><span class="desc">link text<span class="tag">](</span><span class="desc">url</span><span class="tag">)</span></a>
+<a href="#"><span class="tag">![</span><span class="desc">alt text<span class="tag">](</span><span class="desc">url</span><span class="tag">)</span></a>
+</p><p>
+<a href="#"><span class="tag">*</span><span class="desc"> Unordered list</span></a>
+<a href="#"><span class="tag">1.</span><span class="desc"> Order list</span></a>
+</p><p>
+<a href="#"><span class="tag">`</span><span class="desc">code</span><span class="tag">`</span></a>
+<a href="#"><span class="tag">``` </span><span class="desc">block code </span><span class="tag">```</span></a>
+</p><p>
+<a href="#"><span class="tag">|-|</span><span class="desc"> table</span></a>
+</p><p>
+<a href="#"><span class="tag">* * * </span><span class="desc">page break</span></a>
+<a href="#"><span class="tag">- - - </span><span class="desc">section break</span></a>
+</p>
+      </div>
+    </div>
     <div id="console">
-      
+
     </div>
 
     <script>

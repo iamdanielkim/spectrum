@@ -232,3 +232,49 @@ span.fileinput-button {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
+
+#shortcut{
+	top: 35px;
+left: 5px;
+position: fixed;
+opacity: 0.7;
+height: 100%;
+width: 19%
+}
+
+#shortcut div.gherkin-quick {
+background-color: #000;
+color: #fff;
+padding: 5px;
+border: 1px solid #000;
+border-radius: initial;
+height: 50%;
+overflow: scroll;
+}
+#shortcut div.gherkin-quick pre{
+	font-size: 7px;
+}
+#shortcut div.md-quick {
+	background-color: #000;
+color: #fff;
+padding: 5px;
+border: 1px solid #000;
+border-radius: initial;
+height: 50%;
+overflow: scroll;
+}
+
+
+#shortcut a {
+	display: block;
+}
+
+#shortcut .tag {
+	color: yellowgreen;
+	font-size: 1.2em;
+}
+
+#shortcut .desc {
+	color: #fff;
+	font-size: 0.8em;
+}
