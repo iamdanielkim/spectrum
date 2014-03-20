@@ -4,6 +4,13 @@ define("livelist/livelist", ["jquery"], function($){
   var livelist = function (hook, callback){
     callback =  callback || {};
 
+    $(".item", hook).on("click", function(ev){
+      var $item = $(this);
+
+      callback["itemClick"] && callback["itemClick"](livelistNestedSerializer.itemToJson($item), $item);
+      ev.stopPropagation();
+    })
+
     $(".item", hook).on("mouseenter", function(ev){
       var el = ev.currentTarget;
       $(".hover", hook).removeClass("hover");
@@ -142,7 +149,10 @@ define("livelist/livelist", ["jquery"], function($){
 
       }else{
         var $item = $(ev.target).parent().parent();
-        $item.attr("status", "_modified");
+        if($item.attr("status") !== "_created"){
+          $item.attr("status", "_modified");
+        }
+
       }
     });
 
@@ -206,7 +216,7 @@ define("livelist/livelist", ["jquery"], function($){
     itemToJson: function($item){
       return {
         uuid: $item.attr("id"),
-        title: $("> .title-wrap .title", $item).text(),
+        title: $("> .title-wrap .title", $item).text().trim(),
         status: $item.attr("status"),
         parents: (function(){
           var list = [];
@@ -268,7 +278,7 @@ define("livelist/livelist", ["jquery"], function($){
       return {
         _id: $item.attr("id"),
         _s: $item.attr("state"),
-        title: $("> .title-wrap .title", $item).text(),
+        title: $("> .title-wrap .title", $item).text().trim(),
         status: $item.attr("status"),
         parent: $item.parent().parent().attr("id"),
         prev: $item.prev().attr("id"),
