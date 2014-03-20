@@ -11,19 +11,18 @@ require.config({
     "sharejs": "webclient/share.uncompressed",
     "sharejs/ace": "webclient/ace"
 }});
-
 require([
   'jquery',
   "spectrum/pagetreeHelper",
   'spectrum/editorHelper',
   'spectrum/gnbHelper',
   ], function($, pagetreeHelper, EditorHelper) {
-
+    window.app = {};
     $(document).ready(function() {
       pagetreeHelper.bindLivelist();
 
-      var editorHelper = new EditorHelper(ace, docName);
-      var editor = editorHelper.create();
+      var editorHelper = app.editorHelper = new EditorHelper(ace);
+      var editor = app.editor = editorHelper.create(docName);
 
       require(['spectrum/uploadHelper'], function(uploadHelper) {
         uploadHelper.bindFileUpload(editor);
