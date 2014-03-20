@@ -12,31 +12,32 @@ define("spectrum/editorHelper", [
       var sharejsDoc;
       var connection;
 
-
       this.create = function(docName){
-        var view = document.getElementById('view');
-
         editor = ace.edit("editor");
-        //editor.setTheme("ace/theme/solarized_dark");
         editor.renderer.setShowGutter(false);
-        var GherkinMode = require('ace/mode/gherkin-en').Mode;
-        editor.getSession().setMode(new GherkinMode());
-        editor.getSession().setTabSize(2);
         editor.setReadOnly(false);
-        editor.session.setUseWrapMode(true);
         editor.setShowPrintMargin(true);
+        setupEditorSession(editor.session);
 
         setup(docName);
         return editor;
       };
 
-
-
       this.rebind = function(docName, contents){
-        console.log(contents);
-        editor.setValue(contents);
+        var session = new ace.EditSession(contents);
+        setupEditorSession(session);
+        editor.setSession(session);
+
         setup(docName);
       };
+
+      function setupEditorSession(session){
+        var GherkinMode = require('ace/mode/gherkin-en').Mode;
+        session.setUndoManager(new ace.UndoManager());
+        session.setMode(new GherkinMode());
+        session.setTabSize(2);
+        session.setUseWrapMode(true);
+      }
 
       function setup(docName){
         sharejsDoc && sharejsDoc.detach_ace && sharejsDoc.detach_ace();
@@ -66,7 +67,9 @@ define("spectrum/editorHelper", [
       }
 
       function renderViewer(docName, editor) {
+        var view = document.getElementById('view');
         var type = docType(docName);
+
         try{
           var converter = new Showdown.converter();
           if(type == "gherkin"){

@@ -20,7 +20,7 @@ define("spectrum/gnbHelper", ['jquery'], function($){
                   break;
                 }
                 setTimeout(function(){
-                  editor.resize();
+                  app.editor.resize();
                 },20);
                 $('div.btn-group[data-toggle-name] button').removeClass('active');
                 button.addClass('active');

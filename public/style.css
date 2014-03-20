@@ -2,6 +2,8 @@ body {
 	overflow: hidden;
 }
 
+/* header */
+
 #header {
 	position: fixed;
 	top: 0;
@@ -38,6 +40,7 @@ span.fileinput-button {
 	border-radius: 2px;
 }
 
+/* left panel */
 #left-panel {
 	z-index: 10;
 	background-color: #333;
@@ -62,8 +65,6 @@ span.fileinput-button {
 	width: 100%;
 	padding: 0px 0px 10px 10px;
 	bottom: 0px;
-
-	/*border-top: 1px dotted yellow;*/
 }
 .left-panel-help h5{
 	margin-left: 5px;
@@ -81,35 +82,7 @@ span.fileinput-button {
 	color: yellow;
 }
 
-/*#left-panel .pages-wrap, #left-panel .features-wrap { float: left; }
-#left-panel.expand .features-wrap {margin-left:25%; } */
-
-
-
-
-/*
-#left-panel a, #left-panel a:visited {
-  color: #D30102;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
-  font-size: 10pt;
-  text-decoration: none;
-}
-
-
-#left-panel .title {
-  display: inline-block;
-  padding-right: 30px;
-  width: 97%;
-}
-#left-panel .btn-link {
-  position: absolute;
-  right: -2px;
-  padding: 0px 8px;
-  height: 18px;
-  margin-top: 1px;
-}
-*/
-
+/* editor */
 #editor.init{
 	color: #fff;
 }
@@ -124,6 +97,7 @@ span.fileinput-button {
 	width: 40%;
 }
 
+/* viewer */
 #viewer {
 	margin: 0;
 	position: fixed;
@@ -143,11 +117,8 @@ span.fileinput-button {
 
 .expand-editor #editor { width: 80%;}
 .expand-editor #viewer { width: 0%;}
-
 .expand-viewer #editor { width: 0%;}
 .expand-viewer #viewer { left:20%; width: 80%;}
-
-
 
 #view {
   padding: 10px 10px 30px 10px;
@@ -217,6 +188,7 @@ span.fileinput-button {
   color: #93A1A1;
 }
 
+/* console */
 
 #console {
 	position: fixed;
@@ -232,6 +204,8 @@ span.fileinput-button {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
+
+/* shortcut */
 
 #shortcut{
 	top: 35px;
