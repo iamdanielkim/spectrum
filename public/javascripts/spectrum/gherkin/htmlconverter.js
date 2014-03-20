@@ -78,7 +78,6 @@ define("spectrum/gherkin/htmlconverter", ['gherkin/lexer/en'], function(Lexer){
           scenario = [];
           insideScenario = false;
         }
-        console.log('=====');
       }
     };
 
