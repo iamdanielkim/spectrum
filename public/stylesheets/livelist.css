@@ -3,21 +3,22 @@
   list-style-type: none; padding-left: 5px;
 }
 
-.title { border-bottom: 1px solid #333 !important; }
-.hover > .title-wrap > .title { color: red; border-bottom: 1px dotted red !important; }
+.item { padding-top: 2px;}
+.item.selected > .title-wrap > .title { color: red; background: #fff; border-bottom: 1px solid #fff !important; }
+.item.selected { background: #fff; border-bottom: 1px solid #fff; }
+.item.hover > .title-wrap > .title { color: red; border-bottom: 1px dotted red !important; }
 
-.drag { display:none; cursor: pointer; float:right;}
-.hover > .title-wrap > .drag { display:inline; }
 .go { display:none; cursor: pointer; float:right;}
-.hover > .title-wrap > .go { display:inline; }
+.item.hover > .title-wrap > .go { display:inline; }
 
-
+.title { border-bottom: 1px solid #333; }
 .title { min-width:5px; width: 80%; display:inline-block;}
 .title:focus {
     outline: none;
     color: red;
     border-bottom: 1px dotted red !important;
 }
+
 .icon {
   color: #red;
   text-decoration: none;
