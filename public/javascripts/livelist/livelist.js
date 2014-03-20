@@ -7,7 +7,7 @@ define("livelist/livelist", ["jquery"], function($){
     $(".item", hook).on("click", function(ev){
       var $item = $(this);
 
-      callback["itemClick"] && callback["itemClick"](livelistNestedSerializer.itemToJson($item), $item);
+      callback["item:selected"] && callback["item:selected"](livelistNestedSerializer.itemToJson($item), $item);
       ev.stopPropagation();
     })
 
@@ -74,7 +74,7 @@ define("livelist/livelist", ["jquery"], function($){
         ev.preventDefault();
         var $span = $(ev.target);
         var $item = $span.parent().parent();
-        callback["shift+enter"] && callback["shift+enter"](livelistNestedSerializer.itemToJson($item));
+        callback["shift+enter"] && callback["shift+enter"](livelistNestedSerializer.itemToJson($item), $item);
 
       }else if(ev.keyCode == 9){ // tab
         ev.preventDefault();
@@ -128,6 +128,7 @@ define("livelist/livelist", ["jquery"], function($){
         }
 
         $prevItem[0] && focus($prevItem.find(".title-wrap > .title"));
+        callback["item:selected"] && callback["item:selected"](livelistNestedSerializer.itemToJson($prevItem), $prevItem);
 
       }else if(ev.keyCode == 40){ //down
         ev.preventDefault();
@@ -144,6 +145,7 @@ define("livelist/livelist", ["jquery"], function($){
         }
 
         $nextItem[0] && focus($nextItem.find(".title-wrap > .title"));
+        callback["item:selected"] && callback["item:selected"](livelistNestedSerializer.itemToJson($nextItem), $nextItem);
       }else if(ev.keyCode == 8 && isCaretInFront()){ //delete
         console.log("delete")
 
@@ -304,7 +306,7 @@ define("livelist/livelist", ["jquery"], function($){
     },
     jsonToItem: function(json){
       return '' +
-        '<li class="item" id="' + json._id + '" >' +
+        '<li class="item" id="' + json._id + '" title="' + json.title + '" >' +
           '<a class="icon" href="#">#</a>' +
           '<div class="title-wrap">' +
             '<span class="title" contenteditable>' + json.title + '</span>' +
