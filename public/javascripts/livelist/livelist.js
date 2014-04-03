@@ -241,8 +241,7 @@ define("livelist/livelist", ["jquery"], function($){
           return list;
         })()
       };
-    }
-    /*,
+    },
     jsonToLive: function(json, className){
         className = className || "";
         var output = [];
@@ -259,13 +258,13 @@ define("livelist/livelist", ["jquery"], function($){
     },
     jsonToItem: function(json){
       return '' +
-        '<li class="item" id="' + json.uuid + '" >' +
+        '<li class="item" id="' + json.uuid + '">' +
           '<div class="title-wrap">' +
-            '<span class="title" contenteditable>' + json.title + '</span><span class="go">></span><span class="drag">+</span> ' +
+            '<span class="title" contenteditable>' + json.title + '</span>' +
           '</div>' +
           (json.children ? livelistSerializer.jsonToLive(json.children) : '') +
         '</li>';
-    }*/
+    }
   };
 
   var livelistNestedSerializer = livelist.nestedSerializer = {
@@ -291,10 +290,10 @@ define("livelist/livelist", ["jquery"], function($){
       };
     },
     jsonToLive: function(json, className){
-        className = className || "";
+        className = "tree" + (className ? " " + className : "");
         var output = [];
         if(json.length > 0){
-          output.push('<ul class="tree ' + className +'">');
+          output.push('<ul class="' + className +'">');
           for(var i=0; i < json.length; i++){
             var child = json[i];
             output.push(livelistNestedSerializer.jsonToItem(child));
@@ -306,13 +305,13 @@ define("livelist/livelist", ["jquery"], function($){
     },
     jsonToItem: function(json){
       return '' +
-        '<li class="item" id="' + json._id + '" title="' + json.title + '" >' +
-          '<a class="icon" href="#">#</a>' +
+        '<li class="item" id="' + json._id + '">' +
+          //'<a class="icon" href="#">#</a>' +
           '<div class="title-wrap">' +
             '<span class="title" contenteditable>' + json.title + '</span>' +
             //'<span class="go">></span><span class="drag">+</span> ' +
           '</div>' +
-          '<div class="commands"><a class="open">열기</a> | <a class="delete">삭제</a></div>' +
+          //'<div class="commands"><a class="open">열기</a> | <a class="delete">삭제</a></div>' +
           (json.children ? livelistNestedSerializer.jsonToLive(json.children) : '') +
         '</li>';
     }

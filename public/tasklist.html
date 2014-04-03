@@ -7,50 +7,65 @@
 
         </style>
         <link href="/stylesheets/livelist.css" rel="stylesheet" type="text/css">
+        <link href="/mocha/mocha.css" rel="stylesheet" type="text/css">
+        <script src="/coffee-script/extras/coffee-script.js"></script>
     </head>
     <body>
+        <div id="mocha"></div>
         <div class="drag">+</div>
+
+
+
         <div id="title">안녕 ~! </div>
+
+         <div id="testbed" style="display:none">
+
+        </div>
+        <hr>
         <div id="panel">
 
             <ul class="tree root">
                 <li class="item" id="89">
-                    <div class="title-wrap"><span class="title" contenteditable>하하하</span> <span class="drag">+</span></div>
+                    <div class="title-wrap"><span class="title" contenteditable>하하하</span> </div>
                     <ul class="tree">
-                         <li id="90" class="item"><div class="title-wrap"><span class="title" contenteditable>하하하</span> <span class="drag">+</span></div></li>
-                         <li id="91" class="item"><div class="title-wrap"><span class="title" contenteditable>헤헤</span> <span class="drag">+</span></div></li>
-                         <li id="92" class="item"><div class="title-wrap"><span class="title" contenteditable>후후</span> <span class="drag">+</span></div></li>
-                         <li id="93" class="item"><div class="title-wrap"><span class="title" contenteditable="">ㅋㅋㅋ</span> <span class="drag">+</span></div>
+                         <li id="90" class="item"><div class="title-wrap"><span class="title" contenteditable>하하하</span> </div></li>
+                         <li id="91" class="item"><div class="title-wrap"><span class="title" contenteditable>헤헤</span> </div></li>
+                         <li id="92" class="item"><div class="title-wrap"><span class="title" contenteditable>후후</span> </div></li>
+                         <li id="93" class="item"><div class="title-wrap"><span class="title" contenteditable="">ㅋㅋㅋ</span> </div>
                              <ul class="tree">
-                                 <li id="94" class="item"><div class="title-wrap"><span class="title" contenteditable="">A</span> <span class="drag">+</span></div></li>
-                                 <li id="95" class="item"><div class="title-wrap"><span class="title" contenteditable="">B</span> <span class="drag">+</span></div></li>
-                                 <li id="96" class="item"><div class="title-wrap"><span class="title" contenteditable="">c</span> <span class="drag">+</span></div></li>
-                                 <li id="97" class="item"><div class="title-wrap"><span class="title" contenteditable="">d</span> <span class="drag">+</span></div></li>
+                                 <li id="94" class="item"><div class="title-wrap"><span class="title" contenteditable="">A</span> </div></li>
+                                 <li id="95" class="item"><div class="title-wrap"><span class="title" contenteditable="">B</span> </div></li>
+                                 <li id="96" class="item"><div class="title-wrap"><span class="title" contenteditable="">c</span> </div></li>
+                                 <li id="97" class="item"><div class="title-wrap"><span class="title" contenteditable="">d</span> </div></li>
                              </ul>
                          </li>
-                         <li id="98" class="item"><div class="title-wrap"><span class="title" contenteditable="">!!!!</span> <span class="drag">+</span></div>
+                         <li id="98" class="item"><div class="title-wrap"><span class="title" contenteditable="">!!!!</span> </div>
                              <ul class="tree">
-                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">@@@@</span> <span class="drag">+</span></div></li>
+                                 <li class="item"><div class="title-wrap"><span class="title" contenteditable="">@@@@</span> </div></li>
                              </ul>
                          </li>
-                         <li id="99" class="item"><div class="title-wrap"><span class="title" contenteditable="">1</span> <span class="drag">+</span></div>
+                         <li id="99" class="item"><div class="title-wrap"><span class="title" contenteditable="">1</span> </div>
                              <ul class="tree">
-                                 <li id="100" class="item"><div class="title-wrap"><span class="title" contenteditable="">2</span> <span class="drag">+</span></div></li>
-                                 <li id="101" class="item"><div class="title-wrap"><span class="title" contenteditable="">3</span> <span class="drag">+</span></div></li>
-                                 <li id="102" class="item"><div class="title-wrap"><span class="title" contenteditable="">4</span> <span class="drag">+</span></div></li>
-                                 <li id="103" class="item"><div class="title-wrap"><span class="title" contenteditable="">5</span> <span class="drag">+</span></div></li>
+                                 <li id="100" class="item"><div class="title-wrap"><span class="title" contenteditable="">2</span> </div></li>
+                                 <li id="101" class="item"><div class="title-wrap"><span class="title" contenteditable="">3</span> </div></li>
+                                 <li id="102" class="item"><div class="title-wrap"><span class="title" contenteditable="">4</span> </div></li>
+                                 <li id="103" class="item"><div class="title-wrap"><span class="title" contenteditable="">5</span> </div></li>
                              </ul>
                          </li>
 
                      </ul>
                 </li>
-                <li id="1000" class="item"><div class="title-wrap"><span class="title" contenteditable="">w</span> <span class="drag">+</span></div></li>
-                <li id="1001" class="item"><div class="title-wrap"><span class="title" contenteditable="">x</span> <span class="drag">+</span></div></li>
-                <li id="1002" class="item"><div class="title-wrap"><span class="title" contenteditable="">y</span> <span class="drag">+</span></div></li>
-                <li id="1003" class="item"><div class="title-wrap"><span class="title" contenteditable="">z</span> <span class="drag">+</span></div></li>
+                <li id="1000" class="item"><div class="title-wrap"><span class="title" contenteditable="">w</span> </div></li>
+                <li id="1001" class="item"><div class="title-wrap"><span class="title" contenteditable="">x</span> </div></li>
+                <li id="1002" class="item"><div class="title-wrap"><span class="title" contenteditable="">y</span> </div></li>
+                <li id="1003" class="item"><div class="title-wrap"><span class="title" contenteditable="">z</span> </div></li>
             </ul>
         </div>
         <div id="console"></div>
+
+
+        <script src="/mocha/mocha.js"></script>
+        <script src="/assert/assert.js"></script>
         <script src="/requirejs/require.js"></script>
         <script>
           require.config({
@@ -59,36 +74,216 @@
               "jquery": "/jquery/dist/jquery.min"
           }});
           require(["jquery", "livelist/livelist"], function($, livelist){
+            mocha.setup('bdd')
+            mocha.checkLeaks();
+            mocha.globals(['jQuery']);
             $(document).ready(function(){
                 lt = [{"_id":"1000","title":"w","parent":"panel","next":"1001","children":[]},{"_id":"1001","title":"x","parent":"panel","prev":"1000","next":"1002","children":[]},{"_id":"1002","title":"y","parent":"panel","prev":"1001","next":"1003","children":[]},{"_id":"1003","title":"z","parent":"panel","prev":"1002","next":"e76ea399-b88d-459f-b305-803878f0bde1","children":[]},{"_id":"e76ea399-b88d-459f-b305-803878f0bde1","title":"asd","status":"_modified","parent":"panel","prev":"1003","next":"dd782860-ee37-41c7-c096-fe8cf696b688","children":[]},{"_id":"dd782860-ee37-41c7-c096-fe8cf696b688","title":"acas","status":"_modified","parent":"panel","prev":"e76ea399-b88d-459f-b305-803878f0bde1","next":"8ebba019-d324-46e5-96c8-f55d4668e2a1","children":[]},{"_id":"8ebba019-d324-46e5-96c8-f55d4668e2a1","title":"","status":"_created","parent":"panel","prev":"dd782860-ee37-41c7-c096-fe8cf696b688","children":[]}];
                 livelist(".root");
                 console.log(JSON.stringify(lt))
-                console.log(livelist.nestedSerializer.jsonToLive(lt));
-                /*
-<ul class="tree ">
-  <li class="item" id="1000" >
-    <div class="title-wrap"><span class="title" contenteditable>www</span><span class="go">></span><span class="drag">+</span> </div>
-    <ul class="tree ">
-      <li class="item" id="1001" >
-        <div class="title-wrap"><span class="title" contenteditable>xxx</span><span class="go">></span><span class="drag">+</span> </div>
-        <ul class="tree ">
-          <li class="item" id="1002" >
-            <div class="title-wrap"><span class="title" contenteditable>yyy</span><span class="go">></span><span class="drag">+</span> </div>
-          </li>
-        </ul>
-      </li>
-      <li class="item" id="32563c53-4566-43be-890a-eb64af856243" >
-        <div class="title-wrap"><span class="title" contenteditable>zzz</span><span class="go">></span><span class="drag">+</span> </div>
-      </li>
-    </ul>
-  </li>
-  <li class="item" id="1003" ><div class="title-wrap"><span class="title" contenteditable>end</span><span class="go">></span><span class="drag">+</span> </div></li>
-</ul>
 
-                */
+
+                suite();
+                mocha.run();
             });
           });
 
         </script>
+<script type="text/coffeescript">
+
+
+window.fixture1 = """
+<ul id="f1" class="tree root">
+    <li class="item" id="f11">
+        <div class="title-wrap"><span class="title" contenteditable>하하하</span> </div>
+        <ul class="tree">
+             <li id="f12" class="item">
+                 <div class="title-wrap"><span class="title" contenteditable>헤헤</span> </div>
+                 <ul class="tree">
+                     <li id="f13" class="item">
+                         <div class="title-wrap"><span class="title" contenteditable="">d</span> </div>
+                     </li>
+                 </ul>
+             </li>
+         </ul>
+    </li>
+</ul>
+"""
+
+</script>
+<script>
+require(["jquery", "livelist/livelist"], function($, livelist){
+    Parser = function(){
+        this.delim = "|";
+        this.mapper = {
+            "##": {
+                children: []
+            }
+        };
+
+    };
+    Parser.prototype = {
+        stringifyItem: function($item){
+            var self = this, rank = 0, prefix = "##" + this.delim;
+            var parentTitleNodes = $item.parents(".item").find(" > .title-wrap > .title");
+            var parentTitles = parentTitleNodes.map(function(i, item){
+               return $(item).text();
+            });
+            if(parentTitles.length > 0){
+               rank = parentTitles.length;
+               prefix += [].join.call(parentTitles, self.delim) + this.delim;
+            }
+            return prefix + $item.find("> .title-wrap > .title").text() + this.delim + rank;
+        },
+        stringify: function($list){
+            var self = this;
+            var list = [];
+            $list.find(".item").map(function(i, item){
+                console.log(":",self.stringifyItem($(item)))
+                list.push(self.stringifyItem($(item)));
+            });
+            return list;
+        },
+        toTreeJson: function(exportedData){
+            this.mapper = {
+                "##": {
+                    children: []
+                }
+            };
+            for(var i=0; i < exportedData.length; i++){
+                var item = this.toItemJson(exportedData[i]);
+                var parent = item.parents.pop();
+
+                if(this.mapper[parent]){
+                    this.mapper[parent].children.push(item);
+                    this.mapper[item.title] = item;
+                }else{
+                    throw new Error(parent + " is not exist");
+                }
+
+            }
+            return this.mapper["##"].children;
+        },
+        toItemJson: function(itemData){
+            var raw = itemData.split(this.delim);
+            var rank = raw.pop(),
+                title = raw.pop(),
+                parents = raw;
+
+            return {
+                _id: title,
+                title: title,
+                rank: rank,
+                parents: raw,
+                children: []
+            };
+        },
+        toTreeHTML: function(treeData){
+            console.log(this.toTreeJson(treeData));
+            return livelist.nestedSerializer.jsonToLive(this.toTreeJson(treeData));
+        },
+        toItemHTML: function(itemData){
+            return livelist.nestedSerializer.jsonToItem(this.toItemJson(itemData));
+        }
+    };
+});
+</script>
+<script type="text/coffeescript">
+
+
+window.suite = () ->
+  describe 'livelist', () ->
+    parser = null;
+    before () ->
+      $("#testbed").html(fixture1)
+      parser = new Parser();
+
+    describe 'stringifyItem() - livelist item을 text data 형태로 변환 ', () ->
+      it '최상위 item은 ##|title|0 의 형태로 변환된다.', () ->
+        title=parser.stringifyItem($("#f11"))
+        expected = "##|하하하|0"
+        assert.equal title, expected , title + " == " + expected
+
+      it '두번째 nested 리스트의 item은 parent_title:title:1 형태로 변환된다.', () ->
+        title=parser.stringifyItem($("#f12"))
+        expected = "##|하하하|헤헤|1"
+        assert.equal title, expected , title + " == " + expected
+
+      it '세번째 nested 리스트의 item은 parent_title:title:2 형태로 변환된다.', () ->
+        title=parser.stringifyItem($("#f13"))
+        expected = "##|하하하|헤헤|d|2"
+        assert.equal title, expected , title + " == " + expected
+
+    describe 'stringify() - livelist tree를 text data 형태로 변환', () ->
+      it 'tree는 변환된 item을 포함하는 array로 반환된다.', () ->
+        console.log("===")
+        list=parser.stringify($("#f1"))
+        expected = [
+          "##|하하하|0",
+          "##|하하하|헤헤|1",
+          "##|하하하|헤헤|d|2"
+        ]
+
+        assert.equal list.join(""), expected.join("") , list + " == " + expected
+
+    describe 'toItemHTML() & toTreeHTML() - text data를 html로 변환', () ->
+      it 'item data format을 livelist item html으로 변환한다.', () ->
+        fixture = "##|하하하|0"
+
+        listHtml = parser.toItemHTML(fixture)
+        expected = """
+            <li class="item" id="하하하"><div class="title-wrap"><span class="title" contenteditable>하하하</span></div></li>
+        """
+        assert.equal listHtml, expected , listHtml + " == " + expected
+
+      it 'item list format을 livelist list html으로 변환한다.', () ->
+        fixture = [
+          "##|하하하|0",
+          "##|하하하|헤헤|1",
+          "##|하하하|헤헤|d|2"
+        ]
+
+        treeHtml = parser.toTreeHTML(fixture)
+
+        expected = """
+<ul class="tree">
+<li class="item" id="하하하"><div class="title-wrap"><span class="title" contenteditable>하하하</span></div><ul class="tree">
+<li class="item" id="헤헤"><div class="title-wrap"><span class="title" contenteditable>헤헤</span></div><ul class="tree">
+<li class="item" id="d"><div class="title-wrap"><span class="title" contenteditable>d</span></div></li>
+</ul></li>
+</ul></li>
+</ul>
+        """
+        assert.equal treeHtml, expected , treeHtml + " == " + expected
+
+    describe 'item 이름 변경', () ->
+
+      it 'item 이름 변경', () ->
+      # 이름을 변경한다. (focus가 벗어나면 변경 완료로 간주함)
+      # 변경한 item은 title-updated로 mark된다
+      # id는 그대로 내용은 변경된다
+
+      it '이미 존재하는 이름으로 item 이름 변경 불가', () ->
+      # 이름을 변경한다. (focus가 벗어나면 변경 완료로 간주함)
+      # 이미 있는 이름이라는 알림을 보여준다.
+      # 원래 이름으로 롤백한다.
+
+      it '변경된 item을 저장하기', () ->
+      # title-updated 상태인 item이 있다.
+      # 저장을 요청한다.
+      # update-success 응답을 받으면 id값을 변경한다.
+
+    describe 'item 위치 변경(들여쓰기,내어쓰기,DnD)', () ->
+      it 'item의 위치를 이동한다.', () ->
+      # 위치를 변경한다.
+      # 변경한 item 이하 children 모두 location-updated로 mark된다
+      # update될 item의 이전 -> 이후 상태를 확인한다.
+
+      it '위치 변경된 item상태 저장하기', () ->
+      # location-updated 상태인 item이 있다.
+      # update될 item의 이전 -> 이후 상태 정보의 변경을 요청한다.
+      # update-success 응답을 받는다.
+
+</script>
     </body>
 </html>
